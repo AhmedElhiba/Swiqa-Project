@@ -17,7 +17,7 @@ const formSchema = z.object({
   email: z.string().email().min(2).max(50),
   password: z.string().min(8).max(50),
 
-})
+})  
 export default function StudentLogin() {
   const navigate = useNavigate()
   // 1. Define your form.
@@ -41,8 +41,8 @@ export default function StudentLogin() {
           navigate(STUDENT_DASHBOARD_ROUTE)
         }
       }
-    ).catch(({ response }) => {
-      setError('email', {
+      ).catch(({ response }) => {
+        setError('email', {
         message: response.data.errors.email.join()
       })
     })
