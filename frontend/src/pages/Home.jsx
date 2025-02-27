@@ -1,12 +1,12 @@
 import React from 'react';
-
+import potatoimage from '../images/potato.png';
 export default function Home() {
   // Sample data for products (expanded)
   const topSellingProducts = [
     { id: 1, name: "Apple", price: "$1.99", image: "https://via.placeholder.com/200" },
     { id: 2, name: "Banana", price: "$0.99", image: "https://via.placeholder.com/200" },
-    { id: 3, name: "Carrot", price: "$2.50", image: "https://via.placeholder.com/200" },
-    { id: 4, name: "Potato", price: "$1.29", image: "https://via.placeholder.com/200" },
+    { id: 3, name: "Carrot", price: "$2.50", image: "https://egreensapp.s3.ap-south-1.amazonaws.com/LIVE/product/PRO086/1702366723695_QvgMk.webp" },
+    { id: 4, name: "Potato", price: "$1.29", image: "https://egreensapp.s3.ap-south-1.amazonaws.com/LIVE/product/PRO324/30-10-2023/0b49e135-26d4-4537-8b09-8eb7a9b07b69.webp" },
     { id: 5, name: "Spinach", price: "$3.00", image: "https://via.placeholder.com/200" },
     { id: 6, name: "Tomato", price: "$2.20", image: "https://via.placeholder.com/200" },
     { id: 7, name: "Lettuce", price: "$1.50", image: "https://via.placeholder.com/200" },
