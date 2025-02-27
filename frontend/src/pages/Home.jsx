@@ -1,20 +1,22 @@
 import React from 'react';
 import potatoimage from '../images/potato.png';
+import btata from '../images/potato.png';
+import maticha from '../images/maticha.jpeg';
 export default function Home() {
   // Sample data for products (expanded)
   const topSellingProducts = [
-    { id: 1, name: "Apple", price: "$1.99", image: "https://via.placeholder.com/200" },
-    { id: 2, name: "Banana", price: "$0.99", image: "https://via.placeholder.com/200" },
-    { id: 3, name: "Carrot", price: "$2.50", image: "https://egreensapp.s3.ap-south-1.amazonaws.com/LIVE/product/PRO086/1702366723695_QvgMk.webp" },
-    { id: 4, name: "Potato", price: "$1.29", image: "https://egreensapp.s3.ap-south-1.amazonaws.com/LIVE/product/PRO324/30-10-2023/0b49e135-26d4-4537-8b09-8eb7a9b07b69.webp" },
-    { id: 5, name: "Spinach", price: "$3.00", image: "https://via.placeholder.com/200" },
-    { id: 6, name: "Tomato", price: "$2.20", image: "https://via.placeholder.com/200" },
-    { id: 7, name: "Lettuce", price: "$1.50", image: "https://via.placeholder.com/200" },
-    { id: 8, name: "Cucumber", price: "$1.10", image: "https://via.placeholder.com/200" },
-    { id: 9, name: "Orange", price: "$2.10", image: "https://via.placeholder.com/200" },
-    { id: 10, name: "Strawberry", price: "$3.50", image: "https://via.placeholder.com/200" },
-    { id: 11, name: "Broccoli", price: "$2.80", image: "https://via.placeholder.com/200" },
-    { id: 12, name: "Grapes", price: "$4.00", image: "https://via.placeholder.com/200" },
+    { id: 1, name: "Apple", price: "$1.99", image: btata},
+    { id: 2, name: "Banana", price: "$0.99", image: btata },
+    { id: 3, name: "Carrot", price: "$2.50", image: maticha },
+    { id: 4, name: "Potato", price: "$1.29", image: btata },
+    { id: 5, name: "Spinach", price: "$3.00", image: maticha },
+    { id: 6, name: "Tomato", price: "$2.20", image: maticha },
+    { id: 7, name: "Lettuce", price: "$1.50", image: btata },
+    { id: 8, name: "Cucumber", price: "$1.10", image: maticha },
+    { id: 9, name: "Orange", price: "$2.10", image: maticha },
+    { id: 10, name: "Strawberry", price: "$3.50", image: btata },
+    { id: 11, name: "Broccoli", price: "$2.80", image: btata },
+    { id: 12, name: "Grapes", price: "$4.00", image: btata },
   ];
 
   return (
