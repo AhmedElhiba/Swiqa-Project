@@ -10,6 +10,7 @@ import GuestLayout from '../layout/GuestLayout.jsx';
 
 export const LOGIN_ROUTE = '/login' 
 export const STUDENT_DASHBOARD_ROUTE  = '/student/dashboard'
+export const HOME_ROUTE = '/'
 export const router = createBrowserRouter([
     {
       element: <Layout/>,

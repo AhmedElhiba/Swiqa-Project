@@ -1,5 +1,5 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { LOGIN_ROUTE, STUDENT_DASHBOARD_ROUTE } from "../router/index.jsx";
+import { HOME_ROUTE, LOGIN_ROUTE, STUDENT_DASHBOARD_ROUTE } from "../router/index.jsx";
 import { useEffect, useState } from "react";
 
 export default function GuestLayout() {
@@ -10,7 +10,7 @@ export default function GuestLayout() {
         const token = window.localStorage.getItem('ACCESS_TOKEN');
         if (token) {
             setIsLoggedIn(true);
-            navigate(STUDENT_DASHBOARD_ROUTE);
+            navigate(HOME_ROUTE);
         }
     }, [navigate]); 
 

@@ -143,19 +143,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-6 w-full px-8">
-        <div className="max-w-screen-xl mx-auto text-center">
-          <div className="flex justify-center space-x-8 mb-4">
-            <a href="/" className="hover:text-green-400">Home</a>
-            <a href="/about" className="hover:text-green-400">About Us</a>
-            <a href="/contact" className="hover:text-green-400">Contact</a>
-            <a href="/privacy" className="hover:text-green-400">Privacy Policy</a>
-          </div>
-          <p className="text-xs">&copy; 2025 Swiqa. All Rights Reserved.</p>
-        </div>
-      </footer>
     </>
 
   );

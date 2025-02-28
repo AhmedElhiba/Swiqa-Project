@@ -7,7 +7,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { axiosClient } from "../../api/axios"
 import { useNavigate } from "react-router-dom"
-import { STUDENT_DASHBOARD_ROUTE } from "../../router"
+import { HOME_ROUTE, STUDENT_DASHBOARD_ROUTE } from "../../router"
 import { HttpStatusCode } from "axios"
 import { Loader, Loader2 } from "lucide-react";
 import React from "react";
@@ -40,7 +40,7 @@ export default function StudentLogin() {
       (value) => {
         if (value.status === 204 || value.status == HttpStatusCode.Ok) {
           window.localStorage.setItem('ACCESS_TOKEN','test')
-          navigate(STUDENT_DASHBOARD_ROUTE)
+          navigate(HOME_ROUTE)
         }
       }
       ).catch(({ response }) => {
