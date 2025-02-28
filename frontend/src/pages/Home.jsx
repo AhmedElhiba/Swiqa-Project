@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import potatoimage from '../images/potato.png';
 import btata from '../images/potato.png';
 import maticha from '../images/maticha.jpeg';
 import tfaha from '../images/tfaha.png'
+import  { UserStateContext } from '../context/UserContext';
+import useContext from 'react';
 
 export default function Home() {
+
+// const context = useContext({UserStateContext})
+
   // Sample data for products
   const allProducts = [
     { id: 1, name: "Apple", price: "$1.99", image: tfaha, rating: 4.5 },
@@ -39,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      {/* Main Content */}
+    {/* {context.user.name} */}
       <div className="mt-24 p-8 max-w-screen-xl mx-auto flex gap-8">
         {/* Filter Sidebar on the Left */}
         <div className="w-1/4 bg-gradient-to-br from-green-100 to-green-50 p-6 rounded-lg shadow-lg border border-green-200">
