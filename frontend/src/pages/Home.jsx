@@ -44,6 +44,8 @@ export default function Home() {
   return (
     <>
     {/* {context.user.name} */}
+    <h1>testststst</h1>
+      {/* Main Content */}
       <div className="mt-24 p-8 max-w-screen-xl mx-auto flex gap-8">
         {/* Filter Sidebar on the Left */}
         <div className="w-1/4 bg-gradient-to-br from-green-100 to-green-50 p-6 rounded-lg shadow-lg border border-green-200">
