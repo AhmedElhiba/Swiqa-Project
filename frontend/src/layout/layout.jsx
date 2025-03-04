@@ -46,13 +46,7 @@ export default function Layout() {
                             </Link>
                             
                             {authenticated ? (
-                                <ClientDropDownMenu/> 
-                                // <button 
-                                //     onClick={logoutCall} 
-                                //     className="text-[rgb(73,255,106)] hover:text-[rgb(133,169,71)] transition">
-                                //     Logout
-                                // </button>
-                                
+                                <ClientDropDownMenu/>                               
                             ) : (
                                 <Link to={LOGIN_ROUTE}>
                                     <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Login</span>
