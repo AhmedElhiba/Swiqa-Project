@@ -4,12 +4,12 @@ import Home from '../pages/Home.jsx'
 import Register from '../pages/Register.jsx'
 import Layout from '../layout/layout.jsx'
 import NotFound from '../pages/NotFound.jsx';
-import StudentDashboardLayout from '../layout/Student/StudentDashboardLayout.jsx';
-import StudentDashboard from '../components/Student/StudentDashboard.jsx';
+import ClientDashboardLayout from '../layout/Client/ClientDashboardLayout.jsx';
+import ClientDashboard from '../components/Client/ClientDashboard.jsx';
 import GuestLayout from '../layout/GuestLayout.jsx';
 
 export const LOGIN_ROUTE = '/login' 
-export const STUDENT_DASHBOARD_ROUTE  = '/student/dashboard'
+export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
 export const router = createBrowserRouter([
     {
@@ -35,11 +35,11 @@ export const router = createBrowserRouter([
       ]
     },
     {
-      element: <StudentDashboardLayout/>,
+      element: <ClientDashboardLayout/>,
       children: [
         {
-          path: STUDENT_DASHBOARD_ROUTE,
-          element: <StudentDashboard/>
+          path: CLIENT_DASHBOARD_ROUTE,
+          element: <ClientDashboard/>
         },
       ]
     },

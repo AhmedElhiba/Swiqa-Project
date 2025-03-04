@@ -1,14 +1,16 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { HOME_ROUTE, LOGIN_ROUTE, STUDENT_DASHBOARD_ROUTE } from "../router/index.jsx";
+import { HOME_ROUTE, LOGIN_ROUTE, CLIENT_DASHBOARD_ROUTE } from "../router/index.jsx";
 import { useEffect, useState } from "react";
+import { useUserContext } from "../context/ClientContext.jsx";
+
 
 export default function GuestLayout() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
+    const context = useUserContext();
     
     useEffect(() => {
-        const token = window.localStorage.getItem('ACCESS_TOKEN');
-        if (token) {
+        if (context.authenticated) {
             setIsLoggedIn(true);
             navigate(HOME_ROUTE);
         }
@@ -23,7 +25,6 @@ export default function GuestLayout() {
                         <span className="text-2xl font-semibold text-[rgb(239,227,194)]">
                             <a href="/">Swiqa</a>
                         </span>
-
                         {/* Search Bar & Category Selector */}
                         <div className="flex-grow flex items-center justify-center mx-4">
                             <select className="bg-[rgb(133,169,71)] text-white p-2 rounded-l-md border-none outline-none">

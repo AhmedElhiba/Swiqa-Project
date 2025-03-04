@@ -1,24 +1,29 @@
 import { Outlet, Link, useNavigate, data } from "react-router-dom";
-import { LOGIN_ROUTE } from "../../router";
+import { LOGIN_ROUTE } from "../../router/index.jsx";
 import { useEffect, useState } from "react";
-import { axiosClient } from "../../api/axios";
+import { axiosClient } from "../../api/axios.js";
+import ClientApi from '../../services/api/Client/ClientApi.jsx';
+import { useUserContext } from '../../context/ClientContext.jsx';
+import ClientDropDownMenu from "../ClientDropDownMenu.jsx";
 
 
-export default function StudentDashboardLayout() {
 
-    const [user, setUser] = useState({});
 
+
+export default function ClientDashboardLayout() {
+
+    const context = useUserContext();
     const navigate = useNavigate();
+    const { setUser, setAuthenticated, authenticated, logout : contextlogout, user } = useUserContext()
     useEffect(() => {
-        if (!window.localStorage.getItem('ACCESS_TOKEN', 'test')) {
+        ClientApi.getUser().then(({ data }) => {
+            setUser(data)
+            setAuthenticated(true)
+        }).catch((reason) => {
+            contextlogout()
             navigate(LOGIN_ROUTE)
-        }
-        axiosClient.get('/user').then(({ data }) => {
-            setUser(data),
-                console.log(data)
         })
     }, []);
-
     return (
         <>
             <header>
@@ -36,10 +41,10 @@ export default function StudentDashboardLayout() {
                                 <option value="fruits">Fruits</option>
                                 <option value="vegetables">Vegetables</option>
                             </select>
-                            <input 
-                                type="text" 
-                                placeholder="Search..." 
-                                className="p-2 w-72 border-none outline-none" 
+                            <input
+                                type="text"
+                                placeholder="Search..."
+                                className="p-2 w-72 border-none outline-none"
                             />
                             <button className="bg-[rgb(62,123,39)] text-white px-4 py-2 rounded-r-md">Search</button>
                         </div>
@@ -49,9 +54,7 @@ export default function StudentDashboardLayout() {
                             <Link to='/'>
                                 <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Home</span>
                             </Link>
-                            <Link to={LOGIN_ROUTE}>
-                                <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Log out</span>
-                            </Link>
+                            <ClientDropDownMenu/>
                         </div>
                     </div>
                 </nav>
@@ -93,6 +96,9 @@ export default function StudentDashboardLayout() {
                         </tbody>
                     </table>
                 </div>
+                <div className={'w-full md:w-3/4'}>
+          <Outlet/>
+        </div>
             </main>
         </>
     )

@@ -7,11 +7,11 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input"
 import { axiosClient } from "../../api/axios"
 import { useNavigate } from "react-router-dom"
-import { HOME_ROUTE, STUDENT_DASHBOARD_ROUTE } from "../../router"
+import { HOME_ROUTE,} from "../../router"
 import { HttpStatusCode } from "axios"
 import { Loader, Loader2 } from "lucide-react";
 import React from "react";
-import { CpuChipIcon } from "@heroicons/react/24/solid";
+import { useUserContext } from "../../context/ClientContext"
 
 
 const formSchema = z.object({
@@ -20,9 +20,10 @@ const formSchema = z.object({
   password: z.string().min(8).max(50),
 
 })  
-export default function StudentLogin() {
-  const navigate = useNavigate()
+export default function ClientLogin() {
   // 1. Define your form.
+  const {login,setAuthenticated} =useUserContext()
+  const navigate= useNavigate()
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,24 +31,21 @@ export default function StudentLogin() {
       password: '123456789'
     },
   })
-  const { setError, fromstate: isSubmitting } = form
-  // 2. Define a submite  handler.
+  
+  const { formState: { isSubmitting }, setError } = form;
+
+
   const onSubmit = async values => {
-    await axiosClient.get("/sanctum/csrf-cookie", {
-       baseURL: import.meta.env.VITE_BACKEND_URL
-    })
-    const data = await axiosClient.post('/login', values).then(
-      (value) => {
-        if (value.status === 204 || value.status == HttpStatusCode.Ok) {
-          window.localStorage.setItem('ACCESS_TOKEN','test')
-          navigate(HOME_ROUTE)
-        }
-      }
-      ).catch(({ response }) => {
-        setError('email', {
-        message: response.data.errors.email.join()
-      })
-    })
+    await  login(values.email , values.password).then(
+                  (value) => {
+                    if (value.status === 204 || value.status == HttpStatusCode.Ok) {
+                        setAuthenticated(true)
+                      navigate(HOME_ROUTE)
+                    }
+                })
+    // setError('email', {
+    //   message: response.data.errors.email.join()
+    // })
   }
   return <>
  <Form {...form}>

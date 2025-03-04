@@ -2,7 +2,7 @@
 import { RouterProvider } from 'react-router-dom'
 import './App.css'
 import {router} from './router/index.jsx'
-import UserContext  from './context/UserContext.jsx'
+import UserContext  from './context/ClientContext.jsx'
 
 function App() {
 
@@ -16,4 +16,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

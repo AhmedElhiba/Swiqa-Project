@@ -1,7 +1,19 @@
-import { Outlet, Link } from "react-router-dom";
-import { LOGIN_ROUTE } from "../router";
+import { Outlet, Link, Navigate } from "react-router-dom";
+import { HOME_ROUTE, LOGIN_ROUTE } from "../router";
+import { useUserContext } from "../context/ClientContext";
+import ClientApi from "../services/api/Client/ClientApi";
+import ClientDropDownMenu from "./ClientDropDownMenu";
 
 export default function Layout() {
+    const { authenticated, logout:contextlogut } = useUserContext();
+
+    const logout = async () => {
+        ClientApi.logout().then(()=>{
+            contextlogut()
+            Navigate(HOME_ROUTE)
+        })
+    }
+
     return (
         <>
             <header>
@@ -32,9 +44,20 @@ export default function Layout() {
                             <Link to='/'>
                                 <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Home</span>
                             </Link>
-                            <Link to={LOGIN_ROUTE}>
-                                <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Login</span>
-                            </Link>
+                            
+                            {authenticated ? (
+                                <ClientDropDownMenu/> 
+                                // <button 
+                                //     onClick={logoutCall} 
+                                //     className="text-[rgb(73,255,106)] hover:text-[rgb(133,169,71)] transition">
+                                //     Logout
+                                // </button>
+                                
+                            ) : (
+                                <Link to={LOGIN_ROUTE}>
+                                    <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Login</span>
+                                </Link>
+                            )}
                         </div>
                     </div>
                 </nav>
@@ -42,17 +65,6 @@ export default function Layout() {
             <main className="container mx-auto">
                 <Outlet />
             </main>
-            <footer className="bg-gray-900 text-white py-6 w-full px-8">
-        <div className="max-w-screen-xl mx-auto text-center">
-          <div className="flex justify-center space-x-8 mb-4">
-            <a href="/" className="hover:text-green-400">Home</a>
-            <a href="/about" className="hover:text-green-400">About Us</a>
-            <a href="/contact" className="hover:text-green-400">Contact</a>
-            <a href="/privacy" className="hover:text-green-400">Privacy Policy</a>
-          </div>
-          <p className="text-xs">&copy; 2025 Swiqa. All Rights Reserved.</p>
-        </div>
-      </footer>
         </>
     );
 }
