@@ -7,6 +7,7 @@ import {useUserContext} from  '../context/ClientContext';
 
 export default function Home() {
   // Sample data for products
+  
   const allProducts = [
     { id: 1, name: "Apple", price: "$1.99", image: tfaha, rating: 4.5 },
     { id: 2, name: "Banana", price: "$0.99", image: btata, rating: 4.0 },
@@ -40,13 +41,16 @@ export default function Home() {
 
   return (
     <>
+  
       {/* Main Content */}
       <div className="mt-24 p-8 max-w-screen-xl mx-auto flex gap-8">
         {/* Filter Sidebar on the Left */}
         <div className="w-1/4 bg-gradient-to-br from-green-100 to-green-50 p-6 rounded-lg shadow-lg border border-green-200">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Filter Products</h2>
           <div className="space-y-6">
-            {/* Categories */}
+            <></>
+            {/* Catjsjsegories */}
+
             <div>
               <h3 className="text-lg font-medium text-gray-700 mb-2">Category</h3>
               <ul className="space-y-2">
