@@ -1,6 +1,7 @@
-export default function ClientDashboard(){
+export default function ClientDashboard() {
     return <>
-    
-    <h1>
-        Hey Client ! </h1></>
+
+        <h1>
+            Client Dashboard : </h1>
+    </>
 }

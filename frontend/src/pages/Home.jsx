@@ -6,7 +6,7 @@ import {useUserContext} from  '../context/ClientContext';
 
 
 export default function Home() {
-  // Sample data for products
+  
   const allProducts = [
     { id: 1, name: "Apple", price: "$1.99", image: tfaha, rating: 4.5 },
     { id: 2, name: "Banana", price: "$0.99", image: btata, rating: 4.0 },
@@ -145,6 +145,5 @@ export default function Home() {
         </div>
       </div>
     </>
-
   );
 }

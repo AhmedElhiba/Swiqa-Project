@@ -14,16 +14,22 @@ export default function ClientDashboardLayout() {
 
     const context = useUserContext();
     const navigate = useNavigate();
-    const { setUser, setAuthenticated, authenticated, logout : contextlogout, user } = useUserContext()
+    const { setUser, setAuthenticated, authenticated, logout: contextlogout, user } = useUserContext()
     useEffect(() => {
-        ClientApi.getUser().then(({ data }) => {
-            setUser(data)
-            setAuthenticated(true)
-        }).catch((reason) => {
-            contextlogout()
+        if (authenticated === true) {
+            ClientApi.getUser().then(({ data }) => {
+                setUser(data)
+                setAuthenticated(true)
+            }).catch((reason) => {
+                contextlogout()
+
+            })
+
+        } else {
             navigate(LOGIN_ROUTE)
-        })
-    }, []);
+        }
+
+    }, [authenticated]);
     return (
         <>
             <header>
@@ -54,42 +60,42 @@ export default function ClientDashboardLayout() {
                             <Link to='/'>
                                 <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Home</span>
                             </Link>
-                            <ClientDropDownMenu/>
+                            <ClientDropDownMenu />
                         </div>
                     </div>
                 </nav>
             </header>
             <main className={'container mx-auto'}>
-                <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <div className="relative overflow-x-auto">
+                    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     User Id
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Full Name
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Email
                                 </th>
-                                <th scope="col" class="px-6 py-3">
+                                <th scope="col" className="px-6 py-3">
                                     Date
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {user.id}
                                 </th>
-                                <td class="px-6 py-4">
+                                <td className="px-6 py-4">
                                     {user.name}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td className="px-6 py-4">
                                     {user.email}
                                 </td>
-                                <td class="px-6 py-4">
+                                <td className="px-6 py-4">
                                     {user.created_at}
                                 </td>
                             </tr>
@@ -97,8 +103,8 @@ export default function ClientDashboardLayout() {
                     </table>
                 </div>
                 <div className={'w-full md:w-3/4'}>
-          <Outlet/>
-        </div>
+                    <Outlet />
+                </div>
             </main>
         </>
     )

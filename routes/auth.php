@@ -38,15 +38,17 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 // Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
 //     ->middleware('auth')
 //     ->name('logout');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth:sanctum')
-    ->name('logout');
+
+// Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+//     // ->middleware('auth:sanctum')
+//     ->middleware('auth')
+//     ->name('logout');
 
 
-// Route::middleware(['auth:sanctum'])->group(function () {
-//     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-//         // ->middleware('auth')
-//         ->name('logout');});
-// });
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        // ->middleware('auth')
+        ->name('logout');});
+
 
 
