@@ -11,6 +11,7 @@ import GuestLayout from '../layout/GuestLayout.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
+export const REGISTER_ROUTE ='/register'
 export const router = createBrowserRouter([
     {
       element: <Layout/>,
@@ -26,11 +27,15 @@ export const router = createBrowserRouter([
       ]
     },
     {
-      element: <GuestLayout/>,
+      element: <GuestLayout showNavbar={false}/>,
       children: [
         {
           path: LOGIN_ROUTE,
           element: <Login/>
+        },
+        {
+          path: REGISTER_ROUTE,
+          element: <Register/>
         },
       ]
     },

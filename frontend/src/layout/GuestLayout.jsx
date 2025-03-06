@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useUserContext } from "../context/ClientContext.jsx";
 
 
-export default function GuestLayout() {
+export default function GuestLayout({ showNavbar = true }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
     const context = useUserContext();
@@ -18,14 +18,13 @@ export default function GuestLayout() {
 
     return (
         <>
-            <header>
+{showNavbar && (
+    <header   >
                 <nav className="bg-[rgb(18,53,36)] p-4">
                     <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
-                        {/* Logo */}
                         <span className="text-2xl font-semibold text-[rgb(239,227,194)]">
                             <a href="/">Swiqa</a>
                         </span>
-                        {/* Search Bar & Category Selector */}
                         <div className="flex-grow flex items-center justify-center mx-4">
                             <select className="bg-[rgb(133,169,71)] text-white p-2 rounded-l-md border-none outline-none">
                                 <option value="">All Categories</option>
@@ -39,8 +38,6 @@ export default function GuestLayout() {
                             />
                             <button className="bg-[rgb(62,123,39)] text-white px-4 py-2 rounded-r-md">Search</button>
                         </div>
-
-                        {/* Navigation Links */}
                         <div className="hidden md:flex md:space-x-6">
                             <Link to='/'>
                                 <span className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">Home</span>
@@ -52,6 +49,7 @@ export default function GuestLayout() {
                     </div>
                 </nav>
             </header>
+) }
             <main className="container mx-auto">
                 <Outlet />
             </main>

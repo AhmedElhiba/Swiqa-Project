@@ -48,8 +48,6 @@ const ClientApi = {
       withCredentials: true, 
     });
   },
-
-
 }
 export default ClientApi;
 
