@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#icons {
+  display: none;
+}
+#product-box:hover {
+  #icons {
+    display: flex !important;
+  }
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

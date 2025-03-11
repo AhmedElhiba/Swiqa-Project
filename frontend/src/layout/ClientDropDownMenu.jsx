@@ -17,6 +17,7 @@ export default function ClientDropDownMenu() {
 
     const { logout: contextlogout,  } = useUserContext();
     const [user, setUser] = useState({});
+    console.log(user)
     useEffect(() => {
         ClientApi.getUser().then(({ data }) => {
             setUser(data)

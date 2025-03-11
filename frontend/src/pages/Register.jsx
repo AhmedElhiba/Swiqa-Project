@@ -2,12 +2,13 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader } from "lucide-react";
 import logoswiqa from "../images/swiqa.png"; // Add logo import
+import { HOME_ROUTE } from "../router";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -73,7 +74,9 @@ export default function Register() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       {/* Logo */}
-      <img src={logoswiqa} alt="Logo" className="w-40 h-auto mb-6" />
+      <Link to={HOME_ROUTE}>
+                                <img src={logoswiqa} alt="Swiqa Logo" className="w-40 h-auto mb-6 cursor-pointer" />
+                            </Link>
 
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
         <h1 className="text-2xl font-bold text-center text-gray-800">Create an Account</h1>

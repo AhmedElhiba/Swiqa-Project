@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE } from "../../router";
 import { HttpStatusCode } from "axios";
 import { Loader } from "lucide-react";
@@ -54,7 +54,9 @@ export default function ClientLogin() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       {/* Logo */}
-      <img src={logoswiqa} alt="Logo" className="w-40 h-auto mb-6" />
+      <Link to={HOME_ROUTE}>
+                                <img src={logoswiqa} alt="Swiqa Logo" className="w-40 h-auto mb-6 cursor-pointer" />
+                            </Link>
 
       {/* Login Box */}
       <div className="w-full max-w-sm bg-white p-8 border border-gray-300 rounded-lg shadow-xl">
