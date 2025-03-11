@@ -5,6 +5,7 @@ import ClientApi from "../services/api/Client/ClientApi";
 import ClientDropDownMenu from "./ClientDropDownMenu";
 import logoswiqa from '../images/LOGOSWIQA.png';
 import { useState, useRef, useEffect } from 'react';
+import Footer from "../pages/Sections/Footer";
 
 export default function Layout({ showNavbar = true }) {
     const { authenticated, logout: contextlogout, user } = useUserContext();
@@ -67,7 +68,7 @@ export default function Layout({ showNavbar = true }) {
                             <span className="text-2xl font-semibold text-[rgb(239,227,194)] flex items-center">
                                 {/* <img src={logoswiqa} alt="/" className="w-16 px-1" /> */}
                                 <h1 className="text-[#f8ffa8] py-1 px-1">Swiqa</h1>
-                            </span>
+                            </span> 
 
                             {/* Mobile menu button */}
                             <button 
@@ -201,6 +202,7 @@ export default function Layout({ showNavbar = true }) {
             {/* Main content without additional padding */}
             <main className="flex-grow">
                 <Outlet />
+                <Footer/>
             </main>
         </div>
     );

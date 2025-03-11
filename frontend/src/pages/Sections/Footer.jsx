@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import y1 from '../../images/client1.png';
@@ -8,9 +8,11 @@ import y4 from '../../images/client1.png';
 import y5 from '../../images/client1.png';
 import logo from '../../images/LOGOSWIQA.png'; // Replace with actual logo path
 
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaArrowUp } from "react-icons/fa";
 
 export default function Footer() {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
   const sections = [
     {
       title: "Solutions",
@@ -43,18 +45,41 @@ export default function Footer() {
       easing: 'ease-in-out',
     });
     AOS.refresh();
+
+    // Scroll to top button visibility
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Smooth scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <div id="footer">
-      {/* Logos & Partners Section */}
-      {/* <div className="w-full bg-themegreen lg:px-20 px-10 py-8 grid lg:grid-cols-5 grid-cols-2 items-center gap-10 aos-init aos-animate" data-aos="zoom-in" data-aos-delay="100">    
-        <img src={y1} alt="Client 1" className="w-[130px] opacity-70 cursor-pointer hover:opacity-100" />
-        <img src={y2} alt="Client 2" className="w-[130px] opacity-70 cursor-pointer hover:opacity-100" />
-        <img src={y3} alt="Client 3" className="w-[130px] opacity-70 cursor-pointer hover:opacity-100" />
-        <img src={y4} alt="Client 4" className="w-[130px] opacity-70 cursor-pointer hover:opacity-100" />
-        <img src={y5} alt="Client 5" className="w-[130px] opacity-70 cursor-pointer hover:opacity-100" />
-      </div> */}
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button 
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 bg-yellow-500 text-green-700 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:bg-yellow-400 focus:outline-none transition-all duration-300 z-50"
+          aria-label="Scroll to top"
+          data-aos="fade-up"
+        >
+          <FaArrowUp className="text-xl" />
+        </button>
+      )}
 
       {/* Footer Section (No Extra Space Now) */}
       <div className="w-full bg-green-700 text-[#F8ED8C] py-10 px-2">
@@ -63,7 +88,6 @@ export default function Footer() {
           <div className="flex justify-start md:col-span-1 mb-6 md:mb-0">
             <img src={logo} alt="Footer Logo" className="w-[150px] opacity-90 cursor-pointer hover:opacity-100" />
           </div>
-
           {sections.map((section, index) => (
             <div key={index}>
               <h6 className="font-bold uppercase pt-2 text-yellow-500">{section.title}</h6>
@@ -74,7 +98,6 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-
           {/* Newsletter Subscription */}
           <div className="col-span-2 pt-8 md:pt-2">
             <p className="font-bold uppercase text-yellow-500">Subscribe to our newsletter</p>
@@ -85,10 +108,8 @@ export default function Footer() {
             </form>
           </div>
         </div>
-
-        {/* Footer Bottom Section */}
         <div className="flex flex-col max-w-[1240px] px-2 py-4 mx-auto justify-between sm:flex-row text-center text-yellow-500">
-          <p className="py-4 text-yellow-500    ">2025 SWIQA, All rights reserved</p>
+          <p className="py-4 text-yellow-500">2025 SWIQA, All rights reserved</p>
           <div className="flex justify-between sm:w-[300px] pt-4 text-2xl">
             {items.map((x, index) => (
               <a key={index} href={x.link} target="_blank" rel="noopener noreferrer">

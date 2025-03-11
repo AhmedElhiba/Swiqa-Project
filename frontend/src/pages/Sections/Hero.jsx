@@ -20,25 +20,25 @@ export default function Hero() {
                 style={{ backgroundImage: `url(${dslr9})` }}
             >
                 <h1 data-aos='zoom-in' className='text-themegreen border rounded-lg border-themegreen px-8 py-3 text-xl lg:text-2xl font-semibold'>
-                     Get Up To 90% Off!
+                    Get Up To 90% Off!
                 </h1>
-                <h1 
-                    data-aos='zoom-in' 
+                <h1
+                    data-aos='zoom-in'
                     className='text-themegreen uppercase font-bold lg:text-6xl text-4xl lg:leading-[80px] leading-[50px]'
                 >
-                      Fresh, Organic & Local  <br /> Delivered to Your Door !
+                    Fresh, Organic & Local  <br /> Delivered to Your Door !
                 </h1>
                 <p data-aos='fade-up' className='text-themegreen text-lg lg:text-2xl leading-relaxed font-medium'>
-                     100% Organic & Locally Sourced <br />
-                     Support Small Farmers & Sustainable Living <br />
-                     Fast & Reliable Delivery
+                    100% Organic & Locally Sourced <br />
+                    Support Small Farmers & Sustainable Living <br />
+                    Fast & Reliable Delivery
                 </p>
                 <div className='flex gap-6 mt-6'>
                     <button className='bg-themegreen px-6 py-3 rounded-xl text-white text-lg lg:text-xl font-bold transform hover:scale-105 transition-all duration-300 ease-in-out'>
-                         Shop Now
-                    </button>
+                        <a  href="/products" target='-blanc'>                         Shop Now
+                        </a>                    </button>
                     <button className='bg-[#809D3C] px-6 py-3 rounded-xl text-white text-lg lg:text-xl font-bold transform hover:scale-105 transition-all duration-300 ease-in-out'>
-                         Start Selling
+                        Start Selling
                     </button>
                 </div>
             </div>
