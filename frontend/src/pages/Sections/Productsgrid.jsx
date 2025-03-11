@@ -7,6 +7,21 @@ import { products } from '../../../export.js';
 import { Link } from 'react-router-dom'; 
 
 export default function Productsgrid() {
+
+    const addToCart = (product) => {
+        // Get current cart
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Add product to cart
+        cart.push(product);
+        
+        // Save back to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Notify the Layout component
+        window.dispatchEvent(new Event('cartUpdated'));
+      };
+
     useEffect(() => {
         AOS.init({
             offset: 100,
@@ -56,17 +71,16 @@ export default function Productsgrid() {
                                         <FaStar className='text-themegreen' />
                                         <FaStar className='text-themegreen' />
                                     </div>
-                                    <button className='bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out'>
-                                        <Link to="/register">Add To Cart</Link>
+                                    <button onClick={addToCart} className='bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out'>
+                                       Add To Cart 
                                     </button>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
-                <button data-aos="zoom-in" data-aos-delay="400" className="bg-green-500 hover:bg-themegreen text-white hover:text-themesage font-semibold px-8 py-3 rounded-lg mt-8">
-                    VIEW MORE
-                </button>
+                <button data-aos="zoom-in" data-aos-delay="400" className="bg-green-500 text-white  font-semibold px-8 py-3 rounded-lg mt-8">
+<a href="/products">VIEW MORE</a>                </button>
             </div>
         </>
     );

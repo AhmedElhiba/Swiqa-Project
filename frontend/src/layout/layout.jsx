@@ -6,6 +6,7 @@ import ClientDropDownMenu from "./ClientDropDownMenu";
 import logoswiqa from '../images/LOGOSWIQA.png';
 import { useState, useRef, useEffect } from 'react';
 import Footer from "../pages/Sections/Footer";
+import { MdShoppingCart } from "react-icons/md"; // Import cart icon
 
 export default function Layout({ showNavbar = true }) {
     const { authenticated, logout: contextlogout, user } = useUserContext();
@@ -17,6 +18,33 @@ export default function Layout({ showNavbar = true }) {
     const [navHeight, setNavHeight] = useState(0);
     const navRef = useRef(null);
     const categories = ["All", "Veg", "Fruits", "Bio"];
+    const [cartItemsCount, setCartItemsCount] = useState(0); // State for cart items count
+
+    // Load cart items count from localStorage on component mount
+    useEffect(() => {
+        const loadCartItems = () => {
+            try {
+                const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                setCartItemsCount(cartItems.length);
+            } catch (error) {
+                console.error("Error loading cart items:", error);
+                setCartItemsCount(0);
+            }
+        };
+
+        loadCartItems();
+        
+        // Add event listener to update cart count when localStorage changes
+        window.addEventListener('storage', loadCartItems);
+        
+        // Custom event for cart updates from other components
+        window.addEventListener('cartUpdated', loadCartItems);
+        
+        return () => {
+            window.removeEventListener('storage', loadCartItems);
+            window.removeEventListener('cartUpdated', loadCartItems);
+        };
+    }, []);
 
     useEffect(() => {
         if (navRef.current) {
@@ -42,6 +70,10 @@ export default function Layout({ showNavbar = true }) {
         // navigate(`/search?q=${encodeURIComponent(searchQuery)}&category=${encodeURIComponent(searchCategory)}`);
     };
 
+    const navigateToCart = () => {
+        navigate('/cart'); // Update with your actual cart route
+    };
+
     useEffect(() => {
         function handleClickOutside(event) {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -58,8 +90,8 @@ export default function Layout({ showNavbar = true }) {
         <div className="flex flex-col min-h-screen">
             {showNavbar && (
                 <header ref={navRef} className="fixed top-0 left-0 right-0 z-50">
-                                        <div id="topbar" className="bg-[#f8ffa8] text-[#2c5530] text-sm lg:text-base font-semibold text-center py-2">
-                         Free Delivery for Orders Over <span className="font-bold">100 DH</span>  |   We Deliver to All of Morocco  |   Minimum Order <span className="font-bold">50 DH</span> Required !
+                    <div id="topbar" className="bg-[#f8ffa8] text-[#2c5530] text-sm lg:text-base font-semibold text-center py-2">
+                        Free Delivery for Orders Over <span className="font-bold">100 DH</span>  |   We Deliver to All of Morocco  |   Minimum Order <span className="font-bold">50 DH</span> Required !
                     </div>
 
                     <nav className="bg-themegreen p-4 shadow-md">
@@ -67,11 +99,13 @@ export default function Layout({ showNavbar = true }) {
                             {/* Logo */}
                             <span className="text-2xl font-semibold text-[rgb(239,227,194)] flex items-center">
                                 {/* <img src={logoswiqa} alt="/" className="w-16 px-1" /> */}
-                                <h1 className="text-[#f8ffa8] py-1 px-1">Swiqa</h1>
-                            </span> 
+                                <a href="/">                                
+                                    <h1 className="text-[#f8ffa8] py-1 px-1">Swiqa</h1>
+                                </a>                            
+                            </span>
 
                             {/* Mobile menu button */}
-                            <button 
+                            <button
                                 className="md:hidden inline-flex items-center p-2 ml-3 text-[#f8ffa8] rounded-lg hover:bg-[rgba(248,255,168,0.2)]"
                                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             >
@@ -129,6 +163,20 @@ export default function Layout({ showNavbar = true }) {
                                 <Link to='/' className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">
                                     Home
                                 </Link>
+                                
+                                {/* Cart Icon */}
+                                <button 
+                                    onClick={navigateToCart}
+                                    className="relative p-1 text-[#f8ffa8] hover:text-white transition mr-2"
+                                >
+                                    <MdShoppingCart className="text-2xl" />
+                                    {cartItemsCount > 0 && (
+                                        <span className="absolute -top-2 -right-2 bg-[#f8ffa8] text-[#2c5530] rounded-full text-xs font-bold w-5 h-5 flex items-center justify-center">
+                                            {cartItemsCount > 99 ? '99+' : cartItemsCount}
+                                        </span>
+                                    )}
+                                </button>
+                                
                                 {authenticated ? (
                                     <div className="flex items-center">
                                         <div className="flex items-center mr-3 text-white">
@@ -154,7 +202,7 @@ export default function Layout({ showNavbar = true }) {
                             </div>
 
                             {/* Mobile Navigation Menu */}
-                            <div 
+                            <div
                                 ref={menuRef}
                                 className={`${mobileMenuOpen ? 'block' : 'hidden'} w-full md:hidden order-4 mt-4 bg-[#2c5530] rounded-lg p-4`}
                             >
@@ -162,6 +210,21 @@ export default function Layout({ showNavbar = true }) {
                                     <Link to='/' className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition px-2 py-1">
                                         Home
                                     </Link>
+                                    
+                                    {/* Mobile Cart Link */}
+                                    <button 
+                                        onClick={navigateToCart}
+                                        className="flex items-center text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition px-2 py-1"
+                                    >
+                                        <MdShoppingCart className="mr-2 text-xl" />
+                                        <span>Cart</span>
+                                        {cartItemsCount > 0 && (
+                                            <span className="ml-2 bg-[#f8ffa8] text-[#2c5530] rounded-full text-xs font-bold w-5 h-5 flex items-center justify-center">
+                                                {cartItemsCount}
+                                            </span>
+                                        )}
+                                    </button>
+                                    
                                     {authenticated ? (
                                         <>
                                             <div className="flex items-center px-2 py-1 text-[#f8ffa8]">
@@ -171,7 +234,7 @@ export default function Layout({ showNavbar = true }) {
                                                 <span>{user?.name || "User"}</span>
                                             </div>
                                             <div className="px-2 py-1">
-                                                <button 
+                                                <button
                                                     onClick={logout}
                                                     className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition"
                                                 >
@@ -202,8 +265,8 @@ export default function Layout({ showNavbar = true }) {
             {/* Main content without additional padding */}
             <main className="flex-grow">
                 <Outlet />
-                <Footer/>
             </main>
+            <Footer />
         </div>
     );
 }

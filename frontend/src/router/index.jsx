@@ -8,11 +8,13 @@ import ClientDashboardLayout from '../layout/Client/ClientDashboardLayout.jsx';
 import ClientDashboard from '../components/Client/ClientDashboard.jsx';
 import GuestLayout from '../layout/GuestLayout.jsx';
 import Products from '../pages/Products.jsx';
+import Cart from '../pages/cart.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
 export const REGISTER_ROUTE ='/register'
 export const PRODUCTS_ROUTE ='/products'
+export const CART_ROUTE = '/cart'
 export const router = createBrowserRouter([
     {
        element: <Layout/>,
@@ -22,13 +24,17 @@ export const router = createBrowserRouter([
           element: <Home/>
         },
         {
-          path: '/products',
+          path: PRODUCTS_ROUTE,
           element: <Products/>
         },
         {
           path: '*',
           element: <NotFound/>
         },
+        {
+          path:CART_ROUTE,
+          element: <Cart/>
+        }
       ]
     },
     {

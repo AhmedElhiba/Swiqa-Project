@@ -5,7 +5,7 @@ import y1 from '../../images/client1.png';
 import y2 from '../../images/client1.png';
 import y3 from '../../images/client1.png';
 import y4 from '../../images/client1.png';
-import y5 from '../../images/client1.png';
+import y5 from '../../images/client1.png'; 
 import logo from '../../images/LOGOSWIQA.png'; // Replace with actual logo path
 
 import { FaFacebook, FaInstagram, FaTwitter, FaArrowUp } from "react-icons/fa";
@@ -59,7 +59,6 @@ export default function Footer() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Smooth scroll to top function
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -86,8 +85,8 @@ export default function Footer() {
         <div className="max-w-[1240px] mx-auto grid grid-cols-2 md:grid-cols-6 border-b-2 border-white py-8">
           {/* Left Side Logo in Footer */}
           <div className="flex justify-start md:col-span-1 mb-6 md:mb-0">
-            <img src={logo} alt="Footer Logo" className="w-[150px] opacity-90 cursor-pointer hover:opacity-100" />
-          </div>
+<a href="/">            <img src={logo} alt="Footer Logo" className="w-[150px] opacity-90 cursor-pointer hover:opacity-100" />
+</a>          </div>
           {sections.map((section, index) => (
             <div key={index}>
               <h6 className="font-bold uppercase pt-2 text-yellow-500">{section.title}</h6>

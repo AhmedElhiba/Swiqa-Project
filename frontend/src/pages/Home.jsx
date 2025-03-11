@@ -15,13 +15,13 @@ import Productsgrid from '../pages/Sections/Productsgrid.jsx'
 export default function Home() {
 
   return <>
-        <Header/>
+        {/* <Header/> */}
         <Hero/>
         <Categories/>
         <Productsgrid/>
         <Types/>
         <Services/>
-        <Footer/>
+        {/* <Footer/> */}
 
 </> 
 }
