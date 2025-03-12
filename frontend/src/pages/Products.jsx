@@ -5,15 +5,20 @@ import 'aos/dist/aos.css';
 import { products } from '../../fakeproducts.js';
 import { FaStar, FaRegHeart, FaFilter, FaSearch } from 'react-icons/fa';
 import { MdOutlineRemoveRedEye, MdAddShoppingCart } from 'react-icons/md';
+// import { useNavigate } from 'react-router-dom';
 
 export default function Products() {
+
   const addToCart = (product) => {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart.push(product);
     localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Dispatch event to update cart count in the header
     window.dispatchEvent(new Event('cartUpdated'));
+    
+    
   };
-
 
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -26,7 +31,6 @@ export default function Products() {
       easing: 'ease-in-out',
     });
 
-    // Extract unique categories
     const uniqueCategories = ['All', ...new Set(products.map(product => product.category))];
     setCategories(uniqueCategories);
   }, []);
@@ -85,31 +89,6 @@ export default function Products() {
                 ))}
               </div>
             </div>
-
-            {/* <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3">Price Range</h3>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
-              />
-              <div className="flex justify-between mt-2">
-                <span>$0</span>
-                <span>$1000</span>
-              </div>
-            </div> */}
-            {/* <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-3">Rating</h3>
-              <div className="flex items-center gap-1 cursor-pointer">
-                <FaStar className="text-themegreen" />
-                <FaStar className="text-themegreen" />
-                <FaStar className="text-themegreen" />
-                <FaStar className="text-themegreen" />
-                <FaStar className="text-themegreen" />
-                <span className="ml-2">& Above</span>
-              </div>
-            </div> */}
           </div>
         </div>
 
@@ -140,7 +119,10 @@ export default function Products() {
                     <div className="bg-themegreen hover:bg-themesage hover:text-black rounded-full p-2 text-white">
                       <FaRegHeart />
                     </div>
-                    <div className="bg-themegreen hover:bg-themesage hover:text-black rounded-full p-2 text-white">
+                    <div 
+                      className="bg-themegreen hover:bg-themesage hover:text-black rounded-full p-2 text-white"
+                      onClick={() => addToCart(item)}
+                    >
                       <MdAddShoppingCart />
                     </div>
                   </div>
@@ -157,7 +139,10 @@ export default function Products() {
                         <FaStar className="text-themegreen" />
                         <FaStar className="text-themegreen" />
                       </div>
-                      <button onClick={addToCart} className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <button 
+                        onClick={() => addToCart(item)} 
+                        className="bg-green-500 text-white px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out"
+                      >
                         Add To Cart
                       </button>
                     </div>

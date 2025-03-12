@@ -9,11 +9,13 @@ import ClientDashboard from '../components/Client/ClientDashboard.jsx';
 import GuestLayout from '../layout/GuestLayout.jsx';
 import Products from '../pages/Products.jsx';
 import Cart from '../pages/cart.jsx';
+import Checkout from '../pages/Checkout.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
 export const REGISTER_ROUTE ='/register'
 export const PRODUCTS_ROUTE ='/products'
+export const CHECKOUT_ROUTE = '/checkout'
 export const CART_ROUTE = '/cart'
 export const router = createBrowserRouter([
     {
@@ -34,6 +36,10 @@ export const router = createBrowserRouter([
         {
           path:CART_ROUTE,
           element: <Cart/>
+        },
+        {
+          path:CHECKOUT_ROUTE,
+          element: <Checkout/>
         }
       ]
     },
