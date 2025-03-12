@@ -5,6 +5,9 @@ import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
+  const [discount, setDiscount] = useState(0); // State to hold the discount value
+  const [couponCode, setCouponCode] = useState(''); // State to hold coupon code input
+  const [couponError, setCouponError] = useState(''); // Error message if the coupon is invalid
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,16 +44,13 @@ export default function Cart() {
   useEffect(() => {
     let total = 0;
     cartItems.forEach(item => {
-      // Remove currency symbol and convert to number
       const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
       total += price * item.quantity;
     });
     setSubtotal(total);
   }, [cartItems]);
 
-  // Update cart in localStorage and trigger event
   const updateCart = (newCartItems) => {
-    // Convert back to individual items for localStorage
     const flatItems = [];
     newCartItems.forEach(item => {
       for (let i = 0; i < item.quantity; i++) {
@@ -63,21 +63,18 @@ export default function Cart() {
     setCartItems(newCartItems);
   };
 
-  // Remove item from cart
   const removeItem = (index) => {
     const newCartItems = [...cartItems];
     newCartItems.splice(index, 1);
     updateCart(newCartItems);
   };
 
-  // Increase quantity
   const increaseQuantity = (index) => {
     const newCartItems = [...cartItems];
     newCartItems[index].quantity += 1;
     updateCart(newCartItems);
   };
 
-  // Decrease quantity
   const decreaseQuantity = (index) => {
     const newCartItems = [...cartItems];
     if (newCartItems[index].quantity > 1) {
@@ -88,23 +85,31 @@ export default function Cart() {
     }
   };
 
-  // Clear cart
   const clearCart = () => {
     localStorage.setItem('cart', JSON.stringify([]));
     window.dispatchEvent(new Event('cartUpdated'));
     setCartItems([]);
   };
 
-  // Continue shopping
   const continueShopping = () => {
     navigate('/products');
   };
 
-  // Proceed to checkout
   const checkout = () => {
-    // Navigate to checkout page (create this route if needed)
     navigate('/checkout');
   };
+
+ 
+  const applyCoupon = () => {
+    if (couponCode === 'SWIQA') { 
+      setCouponError('');
+    } else {
+      setCouponError('Invalid coupon code');
+    }
+  };
+
+  // Calculate the discounted total
+  const totalAfterDiscount = subtotal * (1 - discount);
 
   return (
     <div className="container mx-auto px-4 py-8 mt-8">
@@ -112,7 +117,6 @@ export default function Cart() {
 
       {cartItems.length === 0 ? (
         <div className="text-center py-12">
-          
           <h2 className="text-2xl font-bold mb-4">Your cart is empty</h2>
           <p className="text-gray-500 mb-8">Looks like you haven't added any items to your cart yet.</p>
           <button
@@ -139,7 +143,6 @@ export default function Cart() {
                 </thead>
                 <tbody>
                   {cartItems.map((item, index) => {
-                    // Remove currency symbol and convert to number
                     const price = parseFloat(item.price.replace(/[^0-9.]/g, ''));
                     const total = price * item.quantity;
 
@@ -227,23 +230,51 @@ export default function Cart() {
 
               <div className="border-t my-4"></div>
 
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Discount</span>
+                <span className="font-semibold">{(discount * 100).toFixed(0)}%</span>
+              </div>
+
+              <div className="mb-4">
+                <input
+                  type="text"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                  className="w-full p-2 border rounded-lg"
+                  placeholder="Enter coupon code"
+                />
+                {couponError && <p className="text-red-500 text-sm mt-2">{couponError}</p>}
+                <button
+                  onClick={applyCoupon}
+                  className="w-full mt-2 bg-themegreen text-white py-2 px-4 rounded-lg font-bold hover:bg-opacity-90 transition"
+                >
+                  Apply Coupon
+                </button>
+              </div>
+
               <div className="flex justify-between mb-6">
                 <span className="text-lg font-bold">Total</span>
                 <span className="text-lg font-bold text-themegreen">
-                  {subtotal >= 100 ? subtotal.toFixed(2) : (subtotal + 30).toFixed(2)} DH
+                  {subtotal >= 100 ? totalAfterDiscount.toFixed(2) : (totalAfterDiscount + totalAfterDiscount/10).toFixed(2)} DH
                 </span>
               </div>
-
+              {
+                totalAfterDiscount<50 ? (
+                  <button class= " w-full  bg-gray-300 transition px-4 py-3  rounded-md cursor-not-allowed opacity-90" disabled>
+                   Minimum order of 50 DH required !
+                </button>
+                ):(
               <button
                 onClick={checkout}
                 className="w-full bg-themegreen text-white py-3 px-4 rounded-lg font-bold hover:bg-opacity-90 transition"
               >
                 Proceed to Checkout
               </button>
-
+                )
+              }
               <div className="mt-4 text-xs text-gray-500">
-                <p className="mb-1">• Free shipping for orders over 100 DH</p>
-                <p>• Minimum order of 50 DH required</p>
+                <p className="text-themegreen mb-1">• Free shipping for orders over 100 DH</p>
+                <p className='text-red-600'>• Minimum order of 50 DH required</p>
               </div>
             </div>
           </div>
