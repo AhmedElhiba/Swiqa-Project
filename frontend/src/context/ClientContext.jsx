@@ -1,30 +1,11 @@
-// import React, { createContext, useState } from 'react';
-
-// export const UserStateContext = createContext();
-
-// export default function UserContextProvider({ children }) {
-//   const [user, setUser] = useState({ name: 'ahmed' });
-
-//   const logout = () => {
-//     setUser(null);
-//   };
-
-//   return ( <>
-//     <UserStateContext.Provider value={{ user, setUser, logout }}>
-//       {children}
-//     </UserStateContext.Provider>
-//     </>
-//   );
-
-// }
 import React, { createContext, useContext, useState } from 'react';
-import ClientApi from '../services/api/Client/ClientApi';
+import ClientApi from '../services/api/Client/ClientApi.js';
 
 
 export const ClientStateContext = createContext({
     user: {},
     authenticated: false,
-    setUser: () => { },
+    setUser: () => {},
     login: (email, password) => { },
     logout: () => { },
     setAuthenticated: () => { },
@@ -42,6 +23,10 @@ export default function ClientContext({ children }) {
         await ClientApi.getCsrfToken()
         return ClientApi.login(email, password)
     }
+
+    
+    console.log('user',user)
+
     const logout = () => {
         setUser({})
         setAuthenticated(false)
@@ -69,4 +54,4 @@ export default function ClientContext({ children }) {
         </>
     )
 }
-export const useUserContext = () => useContext(ClientStateContext)
+export const useUserContext = ()=>useContext(ClientStateContext)

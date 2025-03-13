@@ -1,12 +1,12 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from "../router";
 import { useUserContext } from "../context/ClientContext";
-import ClientApi from "../services/api/Client/ClientApi";
+import ClientApi from "../services/api/Client/ClientApi.js";
 import ClientDropDownMenu from "./ClientDropDownMenu";
-import logoswiqa from '../images/LOGOSWIQA.png';
+// import logoswiqa from '../images/LOGOSWIQA.png';
 import { useState, useRef, useEffect } from 'react';
 import Footer from "../pages/Sections/Footer";
-import { MdShoppingCart } from "react-icons/md"; // Import cart icon
+import { MdShoppingCart } from "react-icons/md"; 
 
 export default function Layout({ showNavbar = true }) {
     const { authenticated, logout: contextlogout, user } = useUserContext();
@@ -18,7 +18,8 @@ export default function Layout({ showNavbar = true }) {
     const [navHeight, setNavHeight] = useState(0);
     const navRef = useRef(null);
     const categories = ["All", "Veg", "Fruits", "Bio"];
-    const [cartItemsCount, setCartItemsCount] = useState(0); // State for cart items count
+    const [cartItemsCount, setCartItemsCount] = useState(0); 
+    // console.log('authenticated',authenticated)
 
     // Load cart items count from localStorage on component mount
     useEffect(() => {
@@ -33,11 +34,7 @@ export default function Layout({ showNavbar = true }) {
         };
 
         loadCartItems();
-        
-        // Add event listener to update cart count when localStorage changes
         window.addEventListener('storage', loadCartItems);
-        
-        // Custom event for cart updates from other components
         window.addEventListener('cartUpdated', loadCartItems);
         
         return () => {
@@ -62,7 +59,7 @@ export default function Layout({ showNavbar = true }) {
             console.error("Logout failed:", error);
         }
     };
-
+ console.log('user from navbar', user)
     const handleSearch = (e) => {
         e.preventDefault();
         // Implement your search functionality here
@@ -71,7 +68,7 @@ export default function Layout({ showNavbar = true }) {
     };
 
     const navigateToCart = () => {
-        navigate('/cart'); // Update with your actual cart route
+        navigate('/cart'); 
     };
 
     useEffect(() => {
@@ -180,9 +177,9 @@ export default function Layout({ showNavbar = true }) {
                                 {authenticated ? (
                                     <div className="flex items-center">
                                         <div className="flex items-center mr-3 text-white">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                            {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                                                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
-                                            </svg>
+                                            </svg> */}
                                             <span>{user?.name}</span>
                                         </div>
                                         <ClientDropDownMenu logout={logout} />

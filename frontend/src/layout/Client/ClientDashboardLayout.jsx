@@ -2,7 +2,7 @@ import { Outlet, Link, useNavigate, data } from "react-router-dom";
 import { LOGIN_ROUTE } from "../../router/index.jsx";
 import { useEffect, useState } from "react";
 import { axiosClient } from "../../api/axios.js";
-import ClientApi from '../../services/api/Client/ClientApi.jsx';
+import ClientApi from '../../services/api/Client/ClientApi.js';
 import { useUserContext } from '../../context/ClientContext.jsx';
 import ClientDropDownMenu from "../ClientDropDownMenu.jsx";
 

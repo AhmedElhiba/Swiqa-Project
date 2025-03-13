@@ -17,7 +17,7 @@ const formSchema = z.object({
 });
 
 export default function ClientLogin() {
-  const { login, setAuthenticated } = useUserContext();
+  const { login, setAuthenticated, } = useUserContext();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");  // State to hold the error message
   const form = useForm({
@@ -40,6 +40,8 @@ export default function ClientLogin() {
       
       if (value.status === 204 || value.status === HttpStatusCode.Ok) {
         setAuthenticated(true);
+        //save token in local storage
+
         navigate(HOME_ROUTE);
       } else {
         // If login fails (incorrect credentials), show error message

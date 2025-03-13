@@ -5,9 +5,9 @@ import { FaTrash, FaMinus, FaPlus } from 'react-icons/fa';
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [subtotal, setSubtotal] = useState(0);
-  const [discount, setDiscount] = useState(0); // State to hold the discount value
-  const [couponCode, setCouponCode] = useState(''); // State to hold coupon code input
-  const [couponError, setCouponError] = useState(''); // Error message if the coupon is invalid
+  const [discount, setDiscount] = useState(0); 
+  const [couponCode, setCouponCode] = useState(''); 
+  const [couponError, setCouponError] = useState(''); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -101,10 +101,12 @@ export default function Cart() {
 
  
   const applyCoupon = () => {
-    if (couponCode === 'SWIQA') { 
+    if (couponCode === 'SWIQA2025') { 
       setCouponError('');
+      setDiscount(0.10);
     } else {
       setCouponError('Invalid coupon code');
+      setDiscount(0);
     }
   };
 
@@ -225,7 +227,7 @@ export default function Cart() {
 
               <div className="flex justify-between mb-2">
                 <span className="text-gray-600">Shipping</span>
-                <span className="font-semibold">{subtotal >= 100 ? 'Free' : '30.00 DH'}</span>
+                <span className="font-semibold">{subtotal >= 100 ? 'Free' : '10.00 DH'}</span>
               </div>
 
               <div className="border-t my-4"></div>
@@ -255,12 +257,12 @@ export default function Cart() {
               <div className="flex justify-between mb-6">
                 <span className="text-lg font-bold">Total</span>
                 <span className="text-lg font-bold text-themegreen">
-                  {subtotal >= 100 ? totalAfterDiscount.toFixed(2) : (totalAfterDiscount + totalAfterDiscount/10).toFixed(2)} DH
+                  {subtotal >= 100 ? totalAfterDiscount.toFixed(2) : (totalAfterDiscount +10).toFixed(2)} DH
                 </span>
               </div>
               {
                 totalAfterDiscount<50 ? (
-                  <button class= " w-full  bg-gray-300 transition px-4 py-3  rounded-md cursor-not-allowed opacity-90" disabled>
+                  <button class= " w-full  bg-gray-300 transition px-4 py-3 text-red-600 font-semibold  rounded-md cursor-not-allowed opacity-90" disabled>
                    Minimum order of 50 DH required !
                 </button>
                 ):(

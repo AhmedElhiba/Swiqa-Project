@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\ProductController;
 
 // Route::middleware('web')->group(function() {
     Route::post('/register', [RegisteredUserController::class, 'store'])
@@ -49,6 +50,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
         // ->middleware('auth')
         ->name('logout');});
+
+       
+Route::get('/products', [ProductController::class, 'getProducts']);
+
 
 
 

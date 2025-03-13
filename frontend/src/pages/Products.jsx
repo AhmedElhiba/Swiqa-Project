@@ -1,24 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { FaStar, FaRegHeart, FaSearch,FaFilter } from 'react-icons/fa';
+import { FaStar, FaRegHeart, FaSearch, FaFilter } from 'react-icons/fa';
 import { MdOutlineRemoveRedEye, MdAddShoppingCart } from 'react-icons/md';
-import { products } from '../../fakeproducts.js';
+import axios from 'axios';
 
 export default function Products() {
   const [cartItems, setCartItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchTerm, setSearchTerm] = useState('');
+  const [products, setProducts] = useState([]);  // State to store products fetched from the API
+  const [loading, setLoading] = useState(true); // To handle loading state
 
+  // Fetch products from the Laravel backend API
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
     setCartItems(storedCart);
 
-    // Initialize categories
-    const uniqueCategories = ['All', ...new Set(products.map(product => product.category))];
-    setCategories(uniqueCategories);
+    // Initialize categories (this will be updated after fetching products)
+    axios
+      .get('http://127.0.0.1:8000/api/products')  // Your Laravel API endpoint for fetching products
+      .then((response) => {
+        setProducts(response.data); // Set products fetched from the backend
+        const uniqueCategories = ['All', ...new Set(response.data.map(product => product.category))];
+        setCategories(uniqueCategories);  // Update categories after fetching products
+        setLoading(false);  // Set loading to false when data is fetched
+      })
+      .catch((error) => {
+        console.error('Error fetching products:', error);
+        setLoading(false);  // Set loading to false even if there's an error
+      });
 
+    // Initialize AOS animation
     AOS.init({
       offset: 100,
       duration: 500,
@@ -110,7 +124,9 @@ export default function Products() {
           </p>
         </div>
 
-        {filteredProducts.length > 0 ? (
+        {loading ? (
+          <div>Loading...</div>  // Show loading text while fetching data
+        ) : filteredProducts.length > 0 ? (
           <div data-aos="zoom-in" data-aos-delay="300" className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-6">
             {filteredProducts.map((item) => {
               const isInCart = cartItems.some(product => product.id === item.id);
@@ -149,9 +165,8 @@ export default function Products() {
                       </div>
                       <button
                         onClick={() => addToCart(item)}
-                        className={`px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out ${
-                          isInCart ? 'bg-red-500' : 'bg-green-500'
-                        } text-white`}
+                        className={`px-4 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out ${isInCart ? 'bg-red-500' : 'bg-green-500'
+                          } text-white`}
                       >
                         {isInCart ? 'Remove From Cart' : 'Add To Cart'}
                       </button>
