@@ -7,7 +7,7 @@ export default function Checkout() {
   const [cartItems, setCartItems] = useState([]);
   const [totals, setTotals] = useState({
     subtotal: 0,
-    shipping: 10,
+    shipping: 0,
     total: 0
   });
   const [formData, setFormData] = useState({
