@@ -3,6 +3,7 @@ module.exports = {
     content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
   	extend: {
+		
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -11,6 +12,8 @@ module.exports = {
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
+			themegreen: '#5D8736',
+			themesage: '#A9C46C',
   			card: {
   				DEFAULT: 'hsl(var(--card))',
   				foreground: 'hsl(var(--card-foreground))'
@@ -53,5 +56,8 @@ module.exports = {
   	}
   },
   plugins: [require("tailwindcss-animate")],
+  corePlugins: {
+    transform: true, 
+  }
 };
 

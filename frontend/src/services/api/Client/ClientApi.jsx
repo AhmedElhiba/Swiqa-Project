@@ -45,11 +45,9 @@ const ClientApi = {
   // },
   getUser: async () => {
     return await axiosClient.get('/user', {
-      withCredentials: true, // 🔹 Ensures session authentication works
+      withCredentials: true, 
     });
   },
-
-
 }
 export default ClientApi;
 

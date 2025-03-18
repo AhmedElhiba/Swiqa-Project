@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 // Route::middleware('web')->group(function() {
-    Route::post('/register', [RegisteredUserController::class, 'store'])
+Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
     ->name('register');
 
@@ -35,18 +35,19 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->middleware(['auth', 'throttle:6,1'])
     ->name('verification.send');
 
-// Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-//     ->middleware('auth')
-//     ->name('logout');
-Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-    ->middleware('auth:sanctum')
-    ->name('logout');
-
 
 // Route::middleware(['auth:sanctum'])->group(function () {
-//     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-//         // ->middleware('auth')
-//         ->name('logout');});
-// });
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+         ->middleware('auth')
+        ->name('logout');
+    // Route::get('/user',function (Request $request) {
+    //     return $request->user(); });
+    // ->middleware('auth')
+    // });
+
+    // Route::get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
+
 
 
