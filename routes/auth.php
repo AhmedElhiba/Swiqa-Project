@@ -48,6 +48,9 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
     // });
+    use App\Http\Controllers\ProductController;
+
+Route::get('/products', [ProductController::class, 'index']);
 
 
 
