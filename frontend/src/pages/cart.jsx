@@ -267,7 +267,7 @@ export default function Cart() {
               </div>
               {
                 totalAfterDiscount<50 ? (
-                  <button class= " w-full  bg-gray-300 transition px-4 py-3 text-red-600 font-semibold  rounded-md cursor-not-allowed opacity-90" disabled>
+                  <button className= " w-full  bg-gray-300 transition px-4 py-3 text-red-600 font-semibold  rounded-md cursor-not-allowed opacity-90" disabled>
                    Minimum order of 50 DH required !
                 </button>
                 ):(

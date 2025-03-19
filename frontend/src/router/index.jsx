@@ -11,6 +11,7 @@ import Products from '../pages/Products.jsx';
 import Cart from '../pages/cart.jsx';
 import Checkout from '../pages/Checkout.jsx';
 import ProductDetail from '../pages/Productdetail.jsx';
+import SearchResultsPage from '../pages/SearchResultsPage.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
@@ -19,6 +20,9 @@ export const PRODUCTS_ROUTE ='/products'
 export const CHECKOUT_ROUTE = '/checkout'
 export const CART_ROUTE = '/cart'
 export const PRODUCT_DETAIL = '/products/:id'
+export const SEARCH = '/search'
+
+
 
 
 
@@ -26,6 +30,7 @@ export const router = createBrowserRouter([
     {
        element: <Layout/>,
       children: [
+       
         {
           path: '/',
           element: <Home/>
@@ -33,6 +38,10 @@ export const router = createBrowserRouter([
         {
           path: PRODUCTS_ROUTE,
           element: <Products/>
+        },
+        {
+          path: SEARCH,
+          element: <SearchResultsPage />
         },
         {
           path: PRODUCT_DETAIL,
@@ -51,6 +60,7 @@ export const router = createBrowserRouter([
           path:CHECKOUT_ROUTE,
           element: <Checkout/>
         }
+
       ]
     },
     {

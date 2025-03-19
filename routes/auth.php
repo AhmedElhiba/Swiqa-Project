@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -48,10 +50,12 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
     // });
-    use App\Http\Controllers\ProductController;
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+
+
+Route::post('/generate-pdf', [PdfController::class, 'generatePdf']);
 
 
 

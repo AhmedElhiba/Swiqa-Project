@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
-import axios from 'axios'; // Missing axios import
+import { Link } from 'react-router-dom';
 
+import axios from 'axios'; // Missing axios import
+import { MdAddShoppingCart, MdRemoveShoppingCart } from 'react-icons/md';
 export default function ProductsGrid() {
   const [products, setProducts] = useState([]); // Added missing products state
   const [categories, setCategories] = useState([]); // Added missing categories state
@@ -16,7 +18,7 @@ export default function ProductsGrid() {
 
     // Fetch products from backend
     axios
-      .get('http://127.0.0.1:8000/api/products')  
+      .get('http://127.0.0.1:8000/api/products')
       .then((response) => {
         setProducts(response.data); // Set products fetched from the backend
         const uniqueCategories = ['All', ...new Set(response.data.map(product => product.category))];
@@ -45,12 +47,10 @@ export default function ProductsGrid() {
     return cartItems.some(item => item.id === productId);
   };
 
-  // Toggle product in cart
   const toggleProductInCart = (product) => {
     const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
 
     if (isProductInCart(product.id)) {
-      // Remove this specific product from cart
       const updatedCart = currentCart.filter(item => item.id !== product.id);
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       setCartItems(updatedCart);
@@ -82,33 +82,49 @@ export default function ProductsGrid() {
               const inCart = isProductInCart(item.id);
 
               return (
-                <div
-                  key={index}
-                  className="flex flex-col justify-center items-center gap-2 bg-white p-3 rounded-lg cursor-pointer relative transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out hover:shadow-lg"
-                >
-                  <img src={item.img} alt={item.name} className="w-full h-56 object-cover rounded-lg" />
-                  <h1 className="text-md text-gray-400 font-semibold">{item.category}</h1>
-                  <h1 className="text-lg text-black font-semibold">{item.name}</h1>
-                  <h1 className="text-lg text-themegreen font-bold">{item.price}</h1>
-                  <div className="w-full mt-2">
-                    <hr />
-                    <div className="flex justify-between items-center gap-4 mt-3">
-                      <div className="flex justify-start items-center gap-1">
-                        <FaStar className="text-themegreen" />
-                        <FaStar className="text-themegreen" />
-                        <FaStar className="text-themegreen" />
-                        <FaStar className="text-themegreen" />
-                        <FaStar className="text-themegreen" />
-                      </div>
-                      <button
-                        onClick={() => toggleProductInCart(item)}
-                        className={`${inCart ? 'bg-red-500' : 'bg-green-500'} text-white px-2 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out`}
-                      >
-                        {inCart ? 'Remove From Cart' : 'Add To Cart'}
-                      </button>
+                <Link
+                to={`/products/${item.id}`}
+                id="product-box"
+                key={index}
+                className="flex flex-col justify-center items-center gap-2 bg-white p-3 rounded-lg cursor-pointer relative transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out hover:shadow-lg"
+              >
+                <img src={item.img} alt={item.name} className="w-full h-56 object-cover rounded-lg" />
+                <h1 className="text-md text-gray-400 font-semibold">{item.category}</h1>
+                <h1 className="text-lg text-black font-semibold">{item.name}</h1>
+                <h1 className="text-lg text-themegreen font-bold">{item.price}</h1>
+                <div className="w-full mt-2">
+                  <hr />
+                  <div className="flex justify-between items-center gap-4 mt-3">
+                    <div className="flex justify-start items-center gap-1">
+                      <FaStar className="text-themegreen" />
+                      <FaStar className="text-themegreen" />
+                      <FaStar className="text-themegreen" />
+                      <FaStar className="text-themegreen" />
+                      <FaStar className="text-themegreen" />
                     </div>
+                    <button
+                      onClick={(e) => toggleProductInCart(e, item)}
+                      className={`${inCart
+                        ? 'bg-red-500'
+                        : 'bg-green-500'} text-white px-3 py-2 rounded-lg text-sm font-bold transform-gpu hover:scale-105 transition-transform duration-300 ease-in-out`}
+                    >
+                      {
+                        inCart ? (
+                          <div className="flex items-center">
+                            <MdRemoveShoppingCart className="mr-2 text-xl" />
+                            <p>Remove </p>
+                          </div>
+                        ) : (
+                          <div className="flex items-center">
+                            <MdAddShoppingCart className="mr-2 text-xl" />
+                            <p>Add to Cart</p>
+                          </div>
+                        )
+                      }
+                    </button>
                   </div>
                 </div>
+              </Link>
               );
             })}
           </div>
@@ -119,7 +135,7 @@ export default function ProductsGrid() {
             <p className="text-gray-500">Check back later for our latest products</p>
           </div>
         )}
-        
+
         {/* Optional: Button to load more products */}
         {products.length > productLimit && (
           <div className="text-center mt-4">

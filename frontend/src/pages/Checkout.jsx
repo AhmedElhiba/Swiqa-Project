@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaShoppingCart, FaTrash, FaArrowLeft, FaCreditCard, FaLock, FaCheck, } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 export default function Checkout() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -134,15 +134,46 @@ export default function Checkout() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    localStorage.setItem('cart', JSON.stringify([]));
-    setCartItems([]);
-    window.dispatchEvent(new Event('cartUpdated'));
-    setOrderPlaced(true);
-  };
+    // Order data to send to Laravel
+    const orderData = {
+        ...formData,
+        cartItems,
+        total: totals.total,
+    };
+
+    try {
+        // Send order data to Laravel and get PDF response
+        const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
+            responseType: "blob", // Important: Ensures response is treated as a file (PDF)
+        });
+
+        // Create a URL for the blob data
+        const blob = new Blob([response.data], { type: "application/pdf" });
+        const url = window.URL.createObjectURL(blob);
+
+        // Trigger automatic download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "order_receipt.pdf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+
+        // Clear cart after successful order
+        localStorage.setItem("cart", JSON.stringify([]));
+        setCartItems([]);
+        window.dispatchEvent(new Event("cartUpdated"));
+        setOrderPlaced(true);
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+    }
+};
+
 
   const goBackToShopping = () => {
     navigate('/products');

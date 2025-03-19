@@ -46,7 +46,7 @@ export default function Categories() {
                                 Vegitable
                             </h2>
                             <button className='border border-white text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:bg-opacity-20 transition-colors'>
-                            EXPLORE MORE 
+                            <a href="/products">EXPLORE MORE</a> 
                             </button>
                         </div>
                     </div>
@@ -65,8 +65,8 @@ export default function Categories() {
                             <h2 className='text-white text-xl font-bold text-center mb-4'>
                                Fruits
                             </h2>
-                            <button className='border border-white text-white  px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:bg-opacity-20 transition-colors'>
-                            EXPLORE MORE 
+                            <button className='border border-white text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:bg-opacity-20 transition-colors'>
+                            <a href="/products">EXPLORE MORE</a> 
                             </button>
                         </div>
                     </div>
@@ -86,7 +86,7 @@ export default function Categories() {
                                 Bio
                             </h2>
                             <button className='border border-white text-white px-6 py-2 rounded-full font-medium text-sm hover:bg-white hover:bg-opacity-20 transition-colors'>
-                                EXPLORE MORE 
+                            <a href="/products">EXPLORE MORE</a> 
                             </button>
                         </div>
                     </div>

@@ -34,10 +34,7 @@ export default function Layout({ showNavbar = true }) {
 
         loadCartItems();
         
-        // Add event listener to update cart count when localStorage changes
         window.addEventListener('storage', loadCartItems);
-        
-        // Custom event for cart updates from other components
         window.addEventListener('cartUpdated', loadCartItems);
         
         return () => {
