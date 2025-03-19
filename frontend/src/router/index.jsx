@@ -10,6 +10,7 @@ import GuestLayout from '../layout/GuestLayout.jsx';
 import Products from '../pages/Products.jsx';
 import Cart from '../pages/cart.jsx';
 import Checkout from '../pages/Checkout.jsx';
+import ProductDetail from '../pages/Productdetail.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
@@ -17,6 +18,10 @@ export const REGISTER_ROUTE ='/register'
 export const PRODUCTS_ROUTE ='/products'
 export const CHECKOUT_ROUTE = '/checkout'
 export const CART_ROUTE = '/cart'
+export const PRODUCT_DETAIL = '/products/:id'
+
+
+
 export const router = createBrowserRouter([
     {
        element: <Layout/>,
@@ -29,6 +34,11 @@ export const router = createBrowserRouter([
           path: PRODUCTS_ROUTE,
           element: <Products/>
         },
+        {
+          path: PRODUCT_DETAIL,
+          element: <ProductDetail />
+        },
+
         {
           path: '*',
           element: <NotFound/>
