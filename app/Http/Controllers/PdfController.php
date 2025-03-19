@@ -19,7 +19,7 @@ class PdfController extends Controller
         // Return the PDF response for download
         return Response::make($pdf->output(), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="order_receipt.pdf"',
+            'Content-Disposition' => 'attachment; filename="order_ticket.pdf"',
         ]);
     }
 }

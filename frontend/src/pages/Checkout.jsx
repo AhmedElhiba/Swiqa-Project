@@ -136,39 +136,42 @@ export default function Checkout() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!validateForm()) return;
 
-    // Order data to send to Laravel
     const orderData = {
         ...formData,
         cartItems,
         total: totals.total,
     };
+    setOrderPlaced(true);
+    localStorage.setItem("cart", JSON.stringify([]));
+        setCartItems([]);
+        window.dispatchEvent(new Event("cartUpdated"));
 
     try {
         // Send order data to Laravel and get PDF response
         const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
-            responseType: "blob", // Important: Ensures response is treated as a file (PDF)
+            responseType: "blob", // kan3tiw l respons type dyal pdf 
         });
 
-        // Create a URL for the blob data
         const blob = new Blob([response.data], { type: "application/pdf" });
         const url = window.URL.createObjectURL(blob);
 
-        // Trigger automatic download
+        
         const a = document.createElement("a");
         a.href = url;
-        a.download = "order_receipt.pdf";
+        a.download = "order_ticket.pdf";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
 
         // Clear cart after successful order
-        localStorage.setItem("cart", JSON.stringify([]));
-        setCartItems([]);
-        window.dispatchEvent(new Event("cartUpdated"));
-        setOrderPlaced(true);
+        // localStorage.setItem("cart", JSON.stringify([]));
+        // setCartItems([]);
+        // window.dispatchEvent(new Event("cartUpdated"));
+        // setOrderPlaced(true);
     } catch (error) {
         console.error("Error generating PDF:", error);
     }
@@ -199,19 +202,20 @@ export default function Checkout() {
         </div>
 
         {orderPlaced ? (
-          <div className="bg-white p-8 rounded-lg shadow-md text-center">
-            <div className="text-6xl mb-4 mx-auto">
-
-            <FaCheck className='text-themegreen mr-4' /></div>
-            <h2 className="text-2xl font-bold mb-4">Order Placed Successfully!</h2>
-            <p className="text-gray-600 mb-6">Thank you for your purchase.</p>
-            <button
-              onClick={goBackToShopping}
-              className="bg-themegreen text-white px-6 py-3 rounded-lg font-bold hover:bg-themesage transition-colors"
-            >
-              Continue Shopping
-            </button>
+          <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center max-w-md mx-auto flex flex-col items-center">
+          <div className="text-6xl mb-4">
+            <FaCheck className="text-themegreen" />
           </div>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Order Placed Successfully!</h2>
+          <p className="text-gray-600 mb-6 text-lg sm:text-xl">Thank you for your purchase.</p>
+          <button
+            onClick={goBackToShopping}
+            className="bg-themegreen text-white px-6 py-3 rounded-lg font-bold hover:bg-themesage transition-colors text-lg"
+          >
+            Continue Shopping
+          </button>
+        </div>
+        
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="lg:w-2/3">

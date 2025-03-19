@@ -40,7 +40,7 @@ export default function Register() {
   const onSubmit = async (values) => {
     setIsSubmitting(true);
     setErrorMessage("");
-    setSuccessMessage(""); // Reset success message before submitting
+    setSuccessMessage(""); 
 
     try {
       const response = await axios.post("http://127.0.0.1:8000/api/register", {
