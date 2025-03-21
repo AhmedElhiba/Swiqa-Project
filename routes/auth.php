@@ -53,9 +53,17 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::post('/products', [ProductController::class, 'store']);
 
 
-Route::post('/generate-pdf', [PdfController::class, 'generatePdf']);
+
+use App\Http\Controllers\OrderController;
+
+// Order routes
+Route::post('/generate-pdf', [OrderController::class, 'store']);
+Route::get('/orders', [OrderController::class, 'index']);
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
 
 
 

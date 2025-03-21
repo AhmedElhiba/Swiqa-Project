@@ -33,10 +33,10 @@ export default function Layout({ showNavbar = true }) {
         };
 
         loadCartItems();
-        
+
         window.addEventListener('storage', loadCartItems);
         window.addEventListener('cartUpdated', loadCartItems);
-        
+
         return () => {
             window.removeEventListener('storage', loadCartItems);
             window.removeEventListener('cartUpdated', loadCartItems);
@@ -87,8 +87,12 @@ export default function Layout({ showNavbar = true }) {
         <div className="flex flex-col min-h-screen">
             {showNavbar && (
                 <header ref={navRef} className="fixed top-0 left-0 right-0 z-50">
-                    <div id="topbar" className="bg-[#f8ffa8] text-[#2c5530] text-sm lg:text-base font-semibold text-center py-2">
-                        Free Delivery for Orders Over <span className="font-bold">100 DH</span>  |   We Deliver to All of Morocco  |   Minimum Order <span className="font-bold">50 DH</span> Required !
+                    <div id="topbar" className="bg-[#f8ffa8] text-[#2c5530] text-sm lg:text-base font-semibold text-center py-2 justify-between space-x-4">
+                        <span> Free Delivery for Orders Over</span>
+                        <span className="font-bold">100 DH  </span>
+                        <span>|    We Deliver to All of Morocco</span>
+                        <span>  | Minimum Order</span>
+                        <span className="font-bold">50 DH  Required !</span>
                     </div>
 
                     <nav className="bg-themegreen p-4 shadow-md">
@@ -96,9 +100,9 @@ export default function Layout({ showNavbar = true }) {
                             {/* Logo */}
                             <span className="text-2xl font-semibold text-[rgb(239,227,194)] flex items-center">
                                 {/* <img src={logoswiqa} alt="/" className="w-16 px-1" /> */}
-                                <a href="/">                                
-                                    <h1 className="text-[#f8ffa8] py-1 px-1">Swiqa</h1>
-                                </a>                            
+                                <a href="/">
+                                    <h1 className="text-[#f8ffa8] py-1 px-1 uppercase">Swiqa</h1>
+                                </a>
                             </span>
 
                             {/* Mobile menu button */}
@@ -160,9 +164,9 @@ export default function Layout({ showNavbar = true }) {
                                 <Link to='/' className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition">
                                     Home
                                 </Link>
-                                
+
                                 {/* Cart Icon */}
-                                <button 
+                                <button
                                     onClick={navigateToCart}
                                     className="relative p-1 text-[#f8ffa8] hover:text-white transition mr-2"
                                 >
@@ -173,11 +177,11 @@ export default function Layout({ showNavbar = true }) {
                                         </span>
                                     )}
                                 </button>
-                                
+
                                 {authenticated ? (
                                     <div className="flex items-center">
                                         <div className="flex items-center mr-3 text-white">
-                                        <span>{user?.name}</span>
+                                            <span>{user?.name}</span>
                                         </div>
                                         <ClientDropDownMenu logout={logout} />
                                     </div>
@@ -204,9 +208,9 @@ export default function Layout({ showNavbar = true }) {
                                     <Link to='/' className="text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition px-2 py-1">
                                         Home
                                     </Link>
-                                    
+
                                     {/* Mobile Cart Link */}
-                                    <button 
+                                    <button
                                         onClick={navigateToCart}
                                         className="flex items-center text-[rgb(239,227,194)] hover:text-[rgb(133,169,71)] transition px-2 py-1"
                                     >
@@ -218,7 +222,7 @@ export default function Layout({ showNavbar = true }) {
                                             </span>
                                         )}
                                     </button>
-                                    
+
                                     {authenticated ? (
                                         <>
                                             <div className="flex items-center px-2 py-1 text-[#f8ffa8]">

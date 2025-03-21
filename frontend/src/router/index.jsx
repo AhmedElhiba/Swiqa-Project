@@ -12,6 +12,7 @@ import Cart from '../pages/cart.jsx';
 import Checkout from '../pages/Checkout.jsx';
 import ProductDetail from '../pages/Productdetail.jsx';
 import SearchResultsPage from '../pages/SearchResultsPage.jsx';
+import AddProduct from '../pages/AddProducts.jsx';
 export const LOGIN_ROUTE = '/login' 
 export const CLIENT_DASHBOARD_ROUTE  = '/Client/dashboard'
 export const HOME_ROUTE = '/'
@@ -21,6 +22,7 @@ export const CHECKOUT_ROUTE = '/checkout'
 export const CART_ROUTE = '/cart'
 export const PRODUCT_DETAIL = '/products/:id'
 export const SEARCH = '/search'
+export const SELLER_ROUTE ='/sell'
 
 
 
@@ -42,6 +44,10 @@ export const router = createBrowserRouter([
         {
           path: SEARCH,
           element: <SearchResultsPage />
+        },
+        {
+          path: SELLER_ROUTE,
+          element: <AddProduct />
         },
         {
           path: PRODUCT_DETAIL,

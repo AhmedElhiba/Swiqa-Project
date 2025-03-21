@@ -21,7 +21,7 @@ export default function Checkout() {
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [errors, setErrors] = useState({});
-// hada useEffect l9dima 'by chanane'
+  // hada useEffect l9dima 'by chanane'
   // useEffect(() => {
   //   const loadCartItems = () => {
   //     const items = JSON.parse(localStorage.getItem('cart')) || [
@@ -41,35 +41,35 @@ export default function Checkout() {
 
 
   useEffect(() => {
-      const loadCartItems = () => {
-        try {
-          const items = JSON.parse(localStorage.getItem('cart')) || [];
-          calculateTotals(items);
-  
-          const groupedItems = [];
-          items.forEach(item => {
-            const existingItem = groupedItems.find(i => i.name === item.name);
-            if (existingItem) {
-              existingItem.quantity += 1;
-            } else {
-              groupedItems.push({ ...item, quantity: 1 });
-            }
-          });
-  
-          setCartItems(groupedItems);
-        } catch (error) {
-          console.error("Error loading cart items:", error);
-          setCartItems([]);
-        }
-      };
-  
-      loadCartItems();
-      window.addEventListener('cartUpdated', loadCartItems);
-  
-      return () => {
-        window.removeEventListener('cartUpdated', loadCartItems);
-      };
-    }, []);
+    const loadCartItems = () => {
+      try {
+        const items = JSON.parse(localStorage.getItem('cart')) || [];
+        calculateTotals(items);
+
+        const groupedItems = [];
+        items.forEach(item => {
+          const existingItem = groupedItems.find(i => i.name === item.name);
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            groupedItems.push({ ...item, quantity: 1 });
+          }
+        });
+
+        setCartItems(groupedItems);
+      } catch (error) {
+        console.error("Error loading cart items:", error);
+        setCartItems([]);
+      }
+    };
+
+    loadCartItems();
+    window.addEventListener('cartUpdated', loadCartItems);
+
+    return () => {
+      window.removeEventListener('cartUpdated', loadCartItems);
+    };
+  }, []);
 
   const calculateTotals = (items) => {
     const subtotal = items.reduce((sum, item) => {
@@ -79,7 +79,7 @@ export default function Checkout() {
 
 
     const shipping = items.length > 0 ? 10 : 0;
-    const total = subtotal + shipping;
+    const total = subtotal ;
 
     setTotals({
       subtotal: subtotal.toFixed(2),
@@ -134,57 +134,135 @@ export default function Checkout() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!validateForm()) return;
+
+  //   const orderData = {
+  //     firstName: formData.firstName,
+  //     lastName: formData.lastName,
+  //     email: formData.email,
+  //     phone: formData.phone,
+  //     address: formData.address,
+  //     city: formData.city,
+  //     zipCode: formData.zipCode,
+  //     cartItems: cartItems,
+  //     total: parseFloat(totals.total)
+  //   };
+
+  //   try {
+  //     // Send order data to Laravel and get PDF response
+  //     const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
+  //       responseType: "blob", // Important for PDF download
+  //     });
+      
+
+  //     // PDF generation was successful
+  //     console.log("Order successful, clearing cart");
+
+  //     // Create and download the PDF
+  //     const blob = new Blob([response.data], { type: "application/pdf" });
+  //     const url = window.URL.createObjectURL(blob);
+
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = "order_ticket.pdf";
+  //     document.body.appendChild(a);
+  //     a.click();
+  //     document.body.removeChild(a);
+  //     window.URL.revokeObjectURL(url);
+
+  //     // Clear the localStorage cart
+  //     localStorage.setItem("cart", JSON.stringify([]));
+
+  //     // Set cart state to empty and trigger update
+  //     setCartItems([]);
+
+  //     // Force a cartUpdated event
+  //     window.dispatchEvent(new Event("cartUpdated"));
+
+  //     // Show order success
+  //     setOrderPlaced(true);
+
+  //     console.log("Cart cleared, order placed set to true");
+  //   } 
+  //   catch (error) {
+  //     setOrderPlaced(true);
+  //     setCartItems([]);
+  //     console.error("Error generating PDF:", error);
+  //     alert("There was an error processing your order. Please try again.");
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) return;
-
+  
     const orderData = {
-        ...formData,
-        cartItems,
-        total: totals.total,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      zipCode: formData.zipCode,
+      cartItems: cartItems,
+      total: parseFloat(totals.total)
     };
-    setOrderPlaced(true);
-    localStorage.setItem("cart", JSON.stringify([]));
-        setCartItems([]);
-        window.dispatchEvent(new Event("cartUpdated"));
-
+  
     try {
-        // Send order data to Laravel and get PDF response
-        const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
-            responseType: "blob", // kan3tiw l respons type dyal pdf 
-        });
-
-        const blob = new Blob([response.data], { type: "application/pdf" });
-        const url = window.URL.createObjectURL(blob);
-
-        
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "order_ticket.pdf";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
-
-        // Clear cart after successful order
-        // localStorage.setItem("cart", JSON.stringify([]));
-        // setCartItems([]);
-        // window.dispatchEvent(new Event("cartUpdated"));
-        // setOrderPlaced(true);
+      // Send order data to Laravel and get PDF response
+      const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
+        responseType: "blob", // Important for PDF download
+      });
+  
+      // PDF generation was successful
+      console.log("Order successful, clearing cart");
+  
+      // Create and download the PDF
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+  
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "order_ticket.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+  
     } catch (error) {
-        console.error("Error generating PDF:", error);
+      console.error("Error generating PDF:", error);
+      // Even if there's an error, we still want to clear the cart and show the order success message
+    } finally {
+      // Clear the localStorage cart
+      localStorage.setItem("cart", JSON.stringify([]));
+  
+      // Set cart state to empty and trigger update
+      setCartItems([]);
+  
+      // Force a cartUpdated event
+      window.dispatchEvent(new Event("cartUpdated"));
+  
+      // Show order success
+      setOrderPlaced(true);
+  
+      console.log("Cart cleared, order placed set to true");
     }
-};
+  };
+
 
 
   const goBackToShopping = () => {
     navigate('/products');
   };
 
-// made by Ahmed - not the real one 
-  const displayQuantity=(quantity)=>{
-    if(quantity>1)
+  // made by Ahmed - not the real one 
+  const displayQuantity = (quantity) => {
+    if (quantity > 1)
       return `x ${quantity}`
   }
   return (
@@ -203,19 +281,19 @@ export default function Checkout() {
 
         {orderPlaced ? (
           <div className="bg-white p-6 sm:p-8 rounded-lg shadow-md text-center max-w-md mx-auto flex flex-col items-center">
-          <div className="text-6xl mb-4">
-            <FaCheck className="text-themegreen" />
+            <div className="text-6xl mb-4">
+              <FaCheck className="text-themegreen" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Order Placed Successfully!</h2>
+            <p className="text-gray-600 mb-6 text-lg sm:text-xl">Thank you for your purchase.</p>
+            <button
+              onClick={goBackToShopping}
+              className="bg-themegreen text-white px-6 py-3 rounded-lg font-bold hover:bg-themesage transition-colors text-lg"
+            >
+              Continue Shopping
+            </button>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Order Placed Successfully!</h2>
-          <p className="text-gray-600 mb-6 text-lg sm:text-xl">Thank you for your purchase.</p>
-          <button
-            onClick={goBackToShopping}
-            className="bg-themegreen text-white px-6 py-3 rounded-lg font-bold hover:bg-themesage transition-colors text-lg"
-          >
-            Continue Shopping
-          </button>
-        </div>
-        
+
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="lg:w-2/3">
@@ -347,10 +425,10 @@ export default function Checkout() {
                     <span>Subtotal</span>
                     <span>{totals.subtotal} DH</span>
                   </div>
-                  <div className="flex justify-between">
+                  {/* <div className="flex justify-between">
                     <span>Shipping</span>
                     <span>{totals.shipping} DH</span>
-                  </div>
+                  </div> */}
                   <div className="flex justify-between font-bold">
                     <span>Total</span>
                     <span>{totals.total} DH</span>

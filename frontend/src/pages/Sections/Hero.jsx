@@ -38,7 +38,7 @@ export default function Hero() {
                         <a  href="/products" target='-blanc'>                         Shop Now
                         </a>                    </button>
                     <button className='bg-[#809D3C] px-6 py-3 rounded-xl text-white text-lg lg:text-xl font-bold transform hover:scale-105 transition-all duration-300 ease-in-out'>
-                        Start Selling
+                       <a href="/sell"> Start Selling</a>
                     </button>
                 </div>
             </div>
