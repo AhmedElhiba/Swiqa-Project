@@ -65,5 +65,9 @@ Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
 
+// Route for search suggestions
+// Route::get('/search', [ProductController::class, 'search']);
+
+
 
 
