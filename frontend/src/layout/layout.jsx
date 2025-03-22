@@ -3,10 +3,10 @@ import { HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from "../router";
 import { useUserContext } from "../context/ClientContext";
 import ClientApi from "../services/api/Client/ClientApi";
 import ClientDropDownMenu from "./ClientDropDownMenu";
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 import Footer from "../pages/Sections/Footer";
 import { MdShoppingCart, MdSearch, MdPerson } from "react-icons/md";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Layout({ showNavbar = true }) {
     const { authenticated, logout: contextlogout, user } = useUserContext();
@@ -30,7 +30,7 @@ export default function Layout({ showNavbar = true }) {
         const fetchProducts = async () => {
             try {
                 setIsSearching(true);
-                const response = await axios.get('http://127.0.0.1:8000/api/products');
+                const response = await axios.get("http://127.0.0.1:8000/api/products");
                 setProducts(response.data);
                 setIsSearching(false);
             } catch (error) {
@@ -46,7 +46,7 @@ export default function Layout({ showNavbar = true }) {
     useEffect(() => {
         if (searchQuery.trim()) {
             setShowSearchResults(true);
-            const filtered = products.filter(product => {
+            const filtered = products.filter((product) => {
                 const matchesCategory = searchCategory === "All" || product.category === searchCategory;
                 const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
                 return matchesCategory && matchesSearch;
@@ -62,7 +62,7 @@ export default function Layout({ showNavbar = true }) {
     useEffect(() => {
         const loadCartItems = () => {
             try {
-                const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+                const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
                 setCartItemsCount(cartItems.length);
             } catch (error) {
                 console.error("Error loading cart items:", error);
@@ -72,12 +72,12 @@ export default function Layout({ showNavbar = true }) {
 
         loadCartItems();
 
-        window.addEventListener('storage', loadCartItems);
-        window.addEventListener('cartUpdated', loadCartItems);
+        window.addEventListener("storage", loadCartItems);
+        window.addEventListener("cartUpdated", loadCartItems);
 
         return () => {
-            window.removeEventListener('storage', loadCartItems);
-            window.removeEventListener('cartUpdated', loadCartItems);
+            window.removeEventListener("storage", loadCartItems);
+            window.removeEventListener("cartUpdated", loadCartItems);
         };
     }, []);
 
@@ -88,21 +88,26 @@ export default function Layout({ showNavbar = true }) {
         }
     }, [navRef]);
 
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setMobileMenuOpen(false);
-            }
-            if (searchResultsRef.current && !searchResultsRef.current.contains(event.target) && 
-                !event.target.closest('form')) {
-                setShowSearchResults(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [menuRef, searchResultsRef]);
+    // useEffect(() => {
+    //     function handleClickOutside(event) {
+    //         if (menuRef.current && !menuRef.current.contains(event.target)) {
+    //             console.log("Closing mobile menu");
+    //             setMobileMenuOpen(false);
+    //         }
+    //         if (
+    //             searchResultsRef.current &&
+    //             !searchResultsRef.current.contains(event.target) &&
+    //             !event.target.closest("form")
+    //         ) {
+    //             console.log("Closing search results dropdown");
+    //             setShowSearchResults(false);
+    //         }
+    //     }
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [menuRef, searchResultsRef]);
 
     const logout = async () => {
         try {
@@ -122,7 +127,7 @@ export default function Layout({ showNavbar = true }) {
     };
 
     const navigateToCart = () => {
-        navigate('/cart');
+        navigate("/cart");
     };
 
     return (
@@ -171,7 +176,9 @@ export default function Layout({ showNavbar = true }) {
                                                 onChange={(e) => setSearchCategory(e.target.value)}
                                             >
                                                 {categories.map((category) => (
-                                                    <option key={category} value={category}>{category}</option>
+                                                    <option key={category} value={category}>
+                                                        {category}
+                                                    </option>
                                                 ))}
                                             </select>
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
@@ -199,28 +206,36 @@ export default function Layout({ showNavbar = true }) {
 
                                     {/* Search Results Dropdown */}
                                     {showSearchResults && searchQuery && (
-                                        <div 
+                                        <div
                                             ref={searchResultsRef}
-                                            className="absolute w-full mt-1 bg-white rounded-md shadow-lg max-h-96 overflow-y-auto z-50"
+                                            className="search-results-dropdown absolute w-full mt-1 bg-white rounded-md shadow-lg max-h-96 overflow-y-auto"
                                         >
                                             <div className="p-3 border-b border-gray-100">
                                                 <h3 className="text-sm font-semibold text-gray-700">
-                                                    {isSearching ? 'Searching...' : 
-                                                    filteredProducts.length > 0 ? 
-                                                    `Found ${filteredProducts.length} results for "${searchQuery}"` : 
-                                                    `No results found for "${searchQuery}"`}
+                                                    {isSearching
+                                                        ? "Searching..."
+                                                        : filteredProducts.length > 0
+                                                            ? `Found ${filteredProducts.length} results for "${searchQuery}"`
+                                                            : `No results found for "${searchQuery}"`}
                                                 </h3>
                                             </div>
                                             <div className="grid grid-cols-2 gap-3 p-3">
                                                 {filteredProducts.slice(0, 6).map((product) => (
-                                                    <Link 
-                                                        to={`/products/${product.id}`}
-                                                        id="product-box"
-                                                        key={product.id}
-                                                        className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
-                                                    >
-                                                        <img 
-                                                            src={product.img} 
+                                                 <Link
+                                                 to={`/products/${product.id}`}
+                                                 key={product.id}
+                                                 className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                                                 onClick={(e) => {
+                                                     e.preventDefault(); // Prevent default link behavior
+                                                     setShowSearchResults(false);
+                                             
+                                                     setTimeout(() => {
+                                                         navigate(`/products/${product.id}`);
+                                                     }, 100); // Delay navigation to allow dropdown to close
+                                                 }}
+                                             >
+                                                        <img
+                                                            src={product.img}
                                                             alt={product.name}
                                                             className="w-12 h-12 object-cover rounded-md"
                                                         />
@@ -234,8 +249,13 @@ export default function Layout({ showNavbar = true }) {
                                             </div>
                                             {filteredProducts.length > 6 && (
                                                 <div className="p-2 text-center border-t border-gray-100">
-                                                    <button 
-                                                        onClick={handleSearch}
+                                                    <button
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            handleSearch(e);
+                                                            setShowSearchResults(false);
+                                                            navigate(`/products?search=${searchQuery}&category=${searchCategory}`);
+                                                        }}
                                                         className="text-sm font-medium text-themegreen hover:underline"
                                                     >
                                                         View all {filteredProducts.length} results
@@ -248,7 +268,10 @@ export default function Layout({ showNavbar = true }) {
 
                                 {/* Desktop Navigation Links */}
                                 <div className="hidden md:flex items-center space-x-4">
-                                    <Link to="/" className="text-[#f8ffa8] hover:text-white transition-colors duration-200 px-3 py-2 rounded-md text-sm font-medium">
+                                    <Link
+                                        to="/"
+                                        className="text-[#f8ffa8] hover:text-white transition-colors duration-200 px-3 py-2 rounded-md text-sm font-medium"
+                                    >
                                         Home
                                     </Link>
 
@@ -261,7 +284,7 @@ export default function Layout({ showNavbar = true }) {
                                         <MdShoppingCart className="text-2xl" />
                                         {cartItemsCount > 0 && (
                                             <span className="absolute -top-1 -right-1 bg-[#f8ffa8] text-[#2c5530] rounded-full text-xs font-bold w-5 h-5 flex items-center justify-center">
-                                                {cartItemsCount > 99 ? '99+' : cartItemsCount}
+                                                {cartItemsCount > 99 ? "99+" : cartItemsCount}
                                             </span>
                                         )}
                                     </button>
@@ -281,7 +304,10 @@ export default function Layout({ showNavbar = true }) {
                                                     Login
                                                 </button>
                                             </Link>
-                                            <Link to={REGISTER_ROUTE} className="text-[#f8ffa8] hover:text-white transition-colors duration-200 px-3 py-1.5 text-sm font-medium">
+                                            <Link
+                                                to={REGISTER_ROUTE}
+                                                className="text-[#f8ffa8] hover:text-white transition-colors duration-200 px-3 py-1.5 text-sm font-medium"
+                                            >
                                                 Register
                                             </Link>
                                         </div>
@@ -295,7 +321,11 @@ export default function Layout({ showNavbar = true }) {
                                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                     >
                                         <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                            <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                                                clipRule="evenodd"
+                                            ></path>
                                         </svg>
                                     </button>
                                 </div>
@@ -341,16 +371,17 @@ export default function Layout({ showNavbar = true }) {
 
                                 {/* Mobile Search Results */}
                                 {showSearchResults && searchQuery && (
-                                    <div 
+                                    <div
                                         ref={searchResultsRef}
                                         className="mt-1 bg-white rounded-md shadow-lg max-h-64 overflow-y-auto z-50"
                                     >
                                         <div className="p-2 border-b border-gray-100">
                                             <h3 className="text-xs font-semibold text-gray-700">
-                                                {isSearching ? 'Searching...' : 
-                                                filteredProducts.length > 0 ? 
-                                                `Found ${filteredProducts.length} results` : 
-                                                `No results found`}
+                                                {isSearching
+                                                    ? "Searching..."
+                                                    : filteredProducts.length > 0
+                                                        ? `Found ${filteredProducts.length} results`
+                                                        : `No results found`}
                                             </h3>
                                         </div>
                                         <div className="divide-y divide-gray-100">
@@ -359,10 +390,15 @@ export default function Layout({ showNavbar = true }) {
                                                     to={`/products/${product.id}`}
                                                     key={product.id}
                                                     className="flex items-center p-2 hover:bg-gray-50 cursor-pointer"
-                                                    // onClick={() => setShowSearchResults(false)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setTimeout(() => {
+                                                            setShowSearchResults(false);
+                                                        }, 100);
+                                                    }}
                                                 >
-                                                    <img 
-                                                        src={product.img} 
+                                                    <img
+                                                        src={product.img}
                                                         alt={product.name}
                                                         className="w-10 h-10 object-cover rounded"
                                                     />
@@ -375,8 +411,14 @@ export default function Layout({ showNavbar = true }) {
                                         </div>
                                         {filteredProducts.length > 4 && (
                                             <div className="p-2 text-center border-t border-gray-100">
-                                                <button 
-                                                    onClick={handleSearch}
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        handleSearch(e);
+                                                        setShowSearchResults(false);
+                                                        setMobileMenuOpen(false);
+                                                        navigate(`/products?search=${searchQuery}&category=${searchCategory}`);
+                                                    }}
                                                     className="text-xs font-medium text-themegreen hover:underline"
                                                 >
                                                     View all results
@@ -391,11 +433,11 @@ export default function Layout({ showNavbar = true }) {
                         {/* Mobile Navigation Menu */}
                         <div
                             ref={menuRef}
-                            className={`${mobileMenuOpen ? 'block' : 'hidden'} md:hidden bg-[#2c5530] shadow-lg border-t border-[rgba(248,255,168,0.2)]`}
+                            className={`${mobileMenuOpen ? "block" : "hidden"} md:hidden bg-[#2c5530] shadow-lg border-t border-[rgba(248,255,168,0.2)]`}
                         >
                             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                                <Link 
-                                    to="/" 
+                                <Link
+                                    to="/"
                                     className="block px-3 py-2 rounded-md text-base font-medium text-[#f8ffa8] hover:bg-[rgba(248,255,168,0.1)] transition-colors duration-200"
                                     onClick={() => setMobileMenuOpen(false)}
                                 >
@@ -436,7 +478,7 @@ export default function Layout({ showNavbar = true }) {
                                     </>
                                 ) : (
                                     <>
-                                        <Link 
+                                        <Link
                                             to={LOGIN_ROUTE}
                                             onClick={() => setMobileMenuOpen(false)}
                                             className="block px-3 py-2"
@@ -445,7 +487,7 @@ export default function Layout({ showNavbar = true }) {
                                                 Login
                                             </button>
                                         </Link>
-                                        <Link 
+                                        <Link
                                             to={REGISTER_ROUTE}
                                             onClick={() => setMobileMenuOpen(false)}
                                             className="block px-3 py-2 rounded-md text-base font-medium text-[#f8ffa8] hover:bg-[rgba(248,255,168,0.1)] transition-colors duration-200"
