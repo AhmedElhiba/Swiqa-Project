@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { FaShoppingCart, FaTrash, FaArrowLeft, FaCreditCard, FaLock, FaCheck, } from 'react-icons/fa';
+import { FaShoppingCart, FaTrash, FaArrowLeft, FaCreditCard, FaLock, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 export default function Checkout() {
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
@@ -21,24 +22,6 @@ export default function Checkout() {
   });
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [errors, setErrors] = useState({});
-  // hada useEffect l9dima 'by chanane'
-  // useEffect(() => {
-  //   const loadCartItems = () => {
-  //     const items = JSON.parse(localStorage.getItem('cart')) || [
-
-  //     ];
-  //     setCartItems(items);
-  //     calculateTotals(items);
-  //   };
-
-  //   loadCartItems();
-  //   window.addEventListener('cartUpdated', loadCartItems);
-
-  //   return () => {
-  //     window.removeEventListener('cartUpdated', loadCartItems);
-  //   };
-  // }, []);
-
 
   useEffect(() => {
     const loadCartItems = () => {
@@ -77,9 +60,11 @@ export default function Checkout() {
       return sum + price * (item.quantity || 1);
     }, 0);
 
+    // Add shipping fee if subtotal is under 100 DH
+    const shipping = subtotal < 100 ? 10 : 0;
 
-    const shipping = items.length > 0 ? 10 : 0;
-    const total = subtotal ;
+    // Calculate total (subtotal + shipping)
+    const total = subtotal + shipping;
 
     setTotals({
       subtotal: subtotal.toFixed(2),
@@ -88,19 +73,10 @@ export default function Checkout() {
     });
   };
 
-  // const removeItemFromCart = (productId) => {
-  //   const updatedCart = cartItems.filter(item => item.id !== productId);
-  //   localStorage.setItem('cart', JSON.stringify(updatedCart));
-  //   setCartItems(updatedCart);
-  //   calculateTotals(updatedCart);
-  //   window.dispatchEvent(new Event('cartUpdated'));
-  // };
-
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
 
     const updatedCart = cartItems.map(item => {
-
       if (item.id === productId) {
         return { ...item, quantity: newQuantity };
       }
@@ -128,79 +104,15 @@ export default function Checkout() {
     if (!formData.city) newErrors.city = 'City is required';
     if (!formData.zipCode) newErrors.zipCode = 'Zip code is required';
 
-
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!validateForm()) return;
-
-  //   const orderData = {
-  //     firstName: formData.firstName,
-  //     lastName: formData.lastName,
-  //     email: formData.email,
-  //     phone: formData.phone,
-  //     address: formData.address,
-  //     city: formData.city,
-  //     zipCode: formData.zipCode,
-  //     cartItems: cartItems,
-  //     total: parseFloat(totals.total)
-  //   };
-
-  //   try {
-  //     // Send order data to Laravel and get PDF response
-  //     const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
-  //       responseType: "blob", // Important for PDF download
-  //     });
-      
-
-  //     // PDF generation was successful
-  //     console.log("Order successful, clearing cart");
-
-  //     // Create and download the PDF
-  //     const blob = new Blob([response.data], { type: "application/pdf" });
-  //     const url = window.URL.createObjectURL(blob);
-
-  //     const a = document.createElement("a");
-  //     a.href = url;
-  //     a.download = "order_ticket.pdf";
-  //     document.body.appendChild(a);
-  //     a.click();
-  //     document.body.removeChild(a);
-  //     window.URL.revokeObjectURL(url);
-
-  //     // Clear the localStorage cart
-  //     localStorage.setItem("cart", JSON.stringify([]));
-
-  //     // Set cart state to empty and trigger update
-  //     setCartItems([]);
-
-  //     // Force a cartUpdated event
-  //     window.dispatchEvent(new Event("cartUpdated"));
-
-  //     // Show order success
-  //     setOrderPlaced(true);
-
-  //     console.log("Cart cleared, order placed set to true");
-  //   } 
-  //   catch (error) {
-  //     setOrderPlaced(true);
-  //     setCartItems([]);
-  //     console.error("Error generating PDF:", error);
-  //     alert("There was an error processing your order. Please try again.");
-  //   }
-  // };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) return;
-  
+
     const orderData = {
       firstName: formData.firstName,
       lastName: formData.lastName,
@@ -212,20 +124,20 @@ export default function Checkout() {
       cartItems: cartItems,
       total: parseFloat(totals.total)
     };
-  
+
     try {
       // Send order data to Laravel and get PDF response
       const response = await axios.post("http://127.0.0.1:8000/api/generate-pdf", orderData, {
         responseType: "blob", // Important for PDF download
       });
-  
+
       // PDF generation was successful
       console.log("Order successful, clearing cart");
-  
+
       // Create and download the PDF
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
-  
+
       const a = document.createElement("a");
       a.href = url;
       a.download = "order_ticket.pdf";
@@ -233,38 +145,37 @@ export default function Checkout() {
       a.click();
       document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
-  
+
     } catch (error) {
       console.error("Error generating PDF:", error);
       // Even if there's an error, we still want to clear the cart and show the order success message
     } finally {
       // Clear the localStorage cart
       localStorage.setItem("cart", JSON.stringify([]));
-  
+
       // Set cart state to empty and trigger update
       setCartItems([]);
-  
+
       // Force a cartUpdated event
       window.dispatchEvent(new Event("cartUpdated"));
-  
+
       // Show order success
       setOrderPlaced(true);
-  
+
       console.log("Cart cleared, order placed set to true");
     }
   };
-
-
 
   const goBackToShopping = () => {
     navigate('/products');
   };
 
-  // made by Ahmed - not the real one 
+  // made by Ahmed - not the real one
   const displayQuantity = (quantity) => {
     if (quantity > 1)
-      return `x ${quantity}`
+      return `x ${quantity}`;
   }
+
   return (
     <div className="bg-gray-100 min-h-screen py-8">
       <div className="max-w-6xl mx-auto px-4">
@@ -293,7 +204,6 @@ export default function Checkout() {
               Continue Shopping
             </button>
           </div>
-
         ) : (
           <div className="flex flex-col lg:flex-row gap-8">
             <div className="lg:w-2/3">
@@ -363,7 +273,7 @@ export default function Checkout() {
                       {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium mb-1">Phone Number </label>
+                      <label className="block text-sm font-medium mb-1">Phone Number</label>
                       <input
                         type="tel"
                         name="phone"
@@ -371,7 +281,7 @@ export default function Checkout() {
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded-lg"
                       />
-                      {errors.email && <p className="text-red-500 text-sm">{errors.phone}</p>}
+                      {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-1">Address</label>
@@ -425,10 +335,10 @@ export default function Checkout() {
                     <span>Subtotal</span>
                     <span>{totals.subtotal} DH</span>
                   </div>
-                  {/* <div className="flex justify-between">
+                  <div className="flex justify-between">
                     <span>Shipping</span>
                     <span>{totals.shipping} DH</span>
-                  </div> */}
+                  </div>
                   <div className="flex justify-between font-bold">
                     <span>Total</span>
                     <span>{totals.total} DH</span>

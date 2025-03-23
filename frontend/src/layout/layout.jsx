@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import Footer from "../pages/Sections/Footer";
 import { MdShoppingCart, MdSearch, MdPerson } from "react-icons/md";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
 
 export default function Layout({ showNavbar = true }) {
     const { authenticated, logout: contextlogout, user } = useUserContext();
@@ -24,6 +25,7 @@ export default function Layout({ showNavbar = true }) {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
+    const location = useLocation();
 
     // Fetch products from the backend
     useEffect(() => {
@@ -134,24 +136,25 @@ export default function Layout({ showNavbar = true }) {
         <div className="flex flex-col min-h-screen bg-gray-50">
             {showNavbar && (
                 <header ref={navRef} className="fixed top-0 left-0 right-0 z-50">
-                    {/* Announcement Bar */}
-                    <div className="bg-gradient-to-r from-[#f8ffa8] to-[#e6e68f] text-[#2c5530] py-2.5 px-4 shadow-sm">
-                        <div className="max-w-7xl mx-auto flex flex-wrap justify-center md:justify-between items-center text-sm md:text-base gap-2">
-                            <div className="flex items-center space-x-2">
-                                <span className="font-medium">Free Delivery</span>
-                                <span>for Orders Over</span>
-                                <span className="font-bold">100 DH</span>
-                            </div>
-                            <div className="hidden md:flex items-center space-x-2">
-                                <span>|</span>
-                                <span>We Deliver to All of Morocco</span>
-                                <span>|</span>
-                                <span>Minimum Order</span>
-                                <span className="font-bold">50 DH</span>
-                                <span>Required!</span>
-                            </div>
-                        </div>
-                    </div>
+                    {/*  Announcement Bar */}
+                    {location.pathname === "/" && (
+                   <div className="bg-gradient-to-r from-[#f8ffa8] to-[#e6e68f] text-[#2c5530] py-2.5 px-4 shadow-sm">
+                   <div className="max-w-7xl mx-auto flex justify-center items-center text-xs sm:text-sm md:text-base">
+                       <div className="flex items-center justify-center space-x-2">
+                           <span className="font-medium">Free Delivery for Orders Over</span>
+                           <span className="font-bold">100 DH</span>
+                           <span className="hidden sm:inline">|</span>
+                           <span className="hidden sm:inline">We Deliver to All of Morocco</span>
+                           <span className="hidden sm:inline">|</span>
+                           <span className="hidden sm:inline">Minimum Order</span>
+                           <span className="font-bold">50 DH</span>
+                           <span className="hidden sm:inline">Required!</span>
+                       </div>
+                   </div>
+               </div>
+               
+
+                    )}
 
                     {/* Main Navigation */}
                     <nav className="bg-themegreen shadow-lg">
@@ -221,19 +224,19 @@ export default function Layout({ showNavbar = true }) {
                                             </div>
                                             <div className="grid grid-cols-2 gap-3 p-3">
                                                 {filteredProducts.slice(0, 6).map((product) => (
-                                                 <Link
-                                                 to={`/products/${product.id}`}
-                                                 key={product.id}
-                                                 className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
-                                                 onClick={(e) => {
-                                                     e.preventDefault(); // Prevent default link behavior
-                                                     setShowSearchResults(false);
-                                             
-                                                     setTimeout(() => {
-                                                         navigate(`/products/${product.id}`);
-                                                     }, 100); // Delay navigation to allow dropdown to close
-                                                 }}
-                                             >
+                                                    <Link
+                                                        to={`/products/${product.id}`}
+                                                        key={product.id}
+                                                        className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                                                        onClick={(e) => {
+                                                            e.preventDefault(); // Prevent default link behavior
+                                                            setShowSearchResults(false);
+
+                                                            setTimeout(() => {
+                                                                navigate(`/products/${product.id}`);
+                                                            }, 100); // Delay navigation to allow dropdown to close
+                                                        }}
+                                                    >
                                                         <img
                                                             src={product.img}
                                                             alt={product.name}
