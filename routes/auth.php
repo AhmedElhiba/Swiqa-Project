@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PdfController;
@@ -68,6 +69,10 @@ Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
 // Route for search suggestions
 // Route::get('/search', [ProductController::class, 'search']);
 
+
+
+
+Route::post('/subscribe', [NewsletterSubscriptionController::class, 'store']);
 
 
 
