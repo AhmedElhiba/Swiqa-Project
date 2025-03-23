@@ -292,7 +292,7 @@ export default function Layout({ showNavbar = true }) {
                                     {authenticated ? (
                                         <div className="flex items-center space-x-3">
                                             <div className="flex items-center text-[#f8ffa8]">
-                                                <MdPerson className="mr-1 text-lg" />
+                                                {/* <MdPerson className="mr-1 text-lg" /> */}
                                                 <span className="text-sm font-medium">{user?.name}</span>
                                             </div>
                                             <ClientDropDownMenu logout={logout} />
@@ -463,7 +463,7 @@ export default function Layout({ showNavbar = true }) {
                                 {authenticated ? (
                                     <>
                                         <div className="flex items-center px-3 py-2 text-[#f8ffa8]">
-                                            <MdPerson className="mr-2 text-xl" />
+                                            {/* <MdPerson className="mr-2 text-xl" /> */}
                                             <span className="text-base font-medium">{user?.name || "User"}</span>
                                         </div>
                                         <button
