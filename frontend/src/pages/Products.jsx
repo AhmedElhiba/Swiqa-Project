@@ -205,11 +205,11 @@ export default function Products() {
       </div>
 
       <div className="flex flex-col lg:flex-row max-w-screen-2xl mx-auto">
-        {/* Filter Sidebar */}
+        {/* Filter Sidebar - ADJUSTED WIDTH FOR LARGER SCREENS */}
         <div 
           className={`${
             filterOpen ? 'fixed inset-0 z-50 bg-white overflow-auto' : 'hidden'
-          } lg:sticky lg:top-0 lg:block lg:w-1/4 lg:h-screen bg-white lg:bg-transparent lg:shadow-none transition-all duration-300 ease-in-out`}
+          } lg:sticky lg:top-0 lg:block lg:w-1/5 lg:h-screen bg-white lg:bg-transparent lg:shadow-none transition-all duration-300 ease-in-out`}
         >
           {/* Mobile filter header */}
           <div className="flex items-center justify-between p-4 border-b lg:hidden">
@@ -222,32 +222,33 @@ export default function Products() {
             </button>
           </div>
 
-          <div className="p-6 overflow-y-auto max-h-screen">
+          {/* ADJUSTED PADDING FOR FILTER SIDEBAR */}
+          <div className="p-4 lg:p-4 overflow-y-auto max-h-screen">
             {/* Search Bar - visible only on desktop */}
-            <div className="mb-8 hidden lg:block">
+            <div className="mb-6 hidden lg:block">
               <div className="relative">
                 <input
                   type="text"
                   placeholder="Search products..."
-                  className="w-full p-3 pl-10 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-themegreen bg-gray-50"
+                  className="w-full p-2.5 pl-8 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-themegreen bg-gray-50 text-sm"
                   value={searchTerm}
                   onChange={handleSearchChange}
                 />
-                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs" />
               </div>
             </div>
 
-            {/* Categories Filter */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <MdCategory className="text-themegreen text-xl" />
-                <h3 className="text-lg font-semibold">Categories</h3>
+            {/* Categories Filter - ADJUSTED MARGINS AND SIZES */}
+            <div className="mb-6">
+              <div className="flex items-center gap-1.5 mb-3">
+                <MdCategory className="text-themegreen text-base" />
+                <h3 className="text-base font-semibold">Categories</h3>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-1.5">
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    className={`text-left p-2.5 rounded-lg transition-all duration-200 ${
+                    className={`text-left p-2 rounded-lg transition-all duration-200 text-sm ${
                       selectedCategory === category
                         ? 'bg-themegreen text-white font-medium shadow-md shadow-themegreen/30'
                         : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
@@ -255,7 +256,7 @@ export default function Products() {
                     onClick={() => setSelectedCategory(category)}
                   >
                     <div className="flex items-center">
-                      <span className={`w-2 h-2 rounded-full ${selectedCategory === category ? 'bg-white' : 'bg-themegreen'} mr-2`}></span>
+                      <span className={`w-1.5 h-1.5 rounded-full ${selectedCategory === category ? 'bg-white' : 'bg-themegreen'} mr-1.5`}></span>
                       {category}
                     </div>
                   </button>
@@ -263,20 +264,20 @@ export default function Products() {
               </div>
             </div>
 
-            {/* Price Range Filter */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <RiPriceTag3Line className="text-themegreen text-xl" />
-                <h3 className="text-lg font-semibold">Price Range</h3>
+            {/* Price Range Filter - ADJUSTED MARGINS AND SIZES */}
+            <div className="mb-6">
+              <div className="flex items-center gap-1.5 mb-3">
+                <RiPriceTag3Line className="text-themegreen text-base" />
+                <h3 className="text-base font-semibold">Price Range</h3>
               </div>
               
-              <div className="mb-4 px-1">
-                <div className="flex justify-between mb-2 text-sm text-gray-500">
+              <div className="mb-3 px-1">
+                <div className="flex justify-between mb-1.5 text-xs text-gray-500">
                   <span>{priceRange[0]} DH</span>
                   <span>{priceRange[1]} DH</span>
                 </div>
                 
-                <div className="relative h-1 bg-gray-200 rounded-full mb-6">
+                <div className="relative h-1 bg-gray-200 rounded-full mb-4">
                   <div 
                     className="absolute h-1 bg-themegreen rounded-full"
                     style={{
@@ -303,41 +304,41 @@ export default function Products() {
                   />
                 </div>
                 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 text-sm">
                   <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">DH</span>
+                    <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">DH</span>
                     <input
                       type="number"
                       min="0"
                       max={priceRange[1]}
                       value={priceRange[0]}
                       onChange={handleMinPriceChange}
-                      className="w-full p-2.5 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-themegreen bg-gray-50"
+                      className="w-full p-1.5 pl-7 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-themegreen bg-gray-50 text-sm"
                     />
                   </div>
-                  <span className="text-gray-400">to</span>
+                  <span className="text-gray-400 text-xs">to</span>
                   <div className="relative flex-1">
-                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">DH</span>
+                    <span className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs">DH</span>
                     <input
                       type="number"
                       min={priceRange[0]}
                       max={maxPrice}
                       value={priceRange[1]}
                       onChange={handleMaxPriceChange}
-                      className="w-full p-2.5 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-themegreen bg-gray-50"
+                      className="w-full p-1.5 pl-7 border border-gray-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-themegreen bg-gray-50 text-sm"
                     />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Sort Options */}
-            <div className="mb-8">
-              <div className="flex items-center gap-2 mb-4">
-                <FaSort className="text-themegreen text-xl" />
-                <h3 className="text-lg font-semibold">Sort By</h3>
+            {/* Sort Options - ADJUSTED MARGINS AND SIZES */}
+            <div className="mb-6">
+              <div className="flex items-center gap-1.5 mb-3">
+                <FaSort className="text-themegreen text-base" />
+                <h3 className="text-base font-semibold">Sort By</h3>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-1 gap-1.5">
                 {[
                   { id: 'default', label: 'Default' },
                   { id: 'priceLow', label: 'Price: Low to High' },
@@ -347,7 +348,7 @@ export default function Products() {
                 ].map((option) => (
                   <button
                     key={option.id}
-                    className={`text-left p-2.5 rounded-lg transition-all duration-200 ${
+                    className={`text-left p-2 rounded-lg transition-all duration-200 text-sm ${
                       sortOption === option.id
                         ? 'bg-themegreen text-white font-medium shadow-md shadow-themegreen/30'
                         : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
@@ -360,13 +361,13 @@ export default function Products() {
               </div>
             </div>
 
-            {/* Reset Filters */}
-            <div className="pt-4 border-t">
+            {/* Reset Filters - ADJUSTED PADDING */}
+            <div className="pt-3 border-t">
               <button
                 onClick={resetFilters}
-                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2"
+                className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-3 rounded-lg transition duration-200 flex items-center justify-center gap-1.5 text-sm"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clipRule="evenodd" />
                 </svg>
                 Reset Filters
@@ -385,8 +386,8 @@ export default function Products() {
           </div>
         </div>
 
-        {/* Products Grid */}
-        <div className="w-full lg:w-3/4 px-4 lg:px-8 py-6 lg:py-10">
+        {/* Products Grid - ADJUSTED WIDTH FOR LARGER SCREENS */}
+        <div className="w-full lg:w-4/5 px-4 lg:px-6 py-6 lg:py-8">
           {/* Summary Bar */}
           <div className="bg-white rounded-xl shadow-sm mb-6 p-4">
             <div className="flex flex-wrap justify-between items-center gap-4">

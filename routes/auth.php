@@ -8,11 +8,12 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\NewsletterSubscriptionController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PdfController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
-// Route::middleware('web')->group(function() {
+
 Route::post('/register', [RegisteredUserController::class, 'store'])
     ->middleware('guest')
     ->name('register');
@@ -39,26 +40,18 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
     ->name('verification.send');
 
 
-// Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
-         ->middleware('auth')
-        ->name('logout');
-    // Route::get('/user',function (Request $request) {
-    //     return $request->user(); });
-    // ->middleware('auth')
-    // });
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
-    // Route::get('/user', function (Request $request) {
-    //     return $request->user();
-    // });
 
+// products routes
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store']);
+Route::put('/products/{id}', [ProductController::class, 'update']);  
+Route::delete('/products/{id}', [ProductController::class, 'destroy']);  
 
-
-
-use App\Http\Controllers\OrderController;
 
 // Order routes
 Route::post('/generate-pdf', [OrderController::class, 'store']);
@@ -66,11 +59,7 @@ Route::get('/orders', [OrderController::class, 'index']);
 Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
 
-// Route for search suggestions
-// Route::get('/search', [ProductController::class, 'search']);
-
-
-
+// newsletter subs route ! 
 
 Route::post('/subscribe', [NewsletterSubscriptionController::class, 'store']);
 

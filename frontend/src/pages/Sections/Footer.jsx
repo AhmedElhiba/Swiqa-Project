@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import logo from '../../images/LOGOSWIQA.png'; // Replace with actual logo path
+import logo from '../../images/LOGOSWIQA.png';
 import { FaFacebook, FaInstagram, FaTwitter, FaArrowUp } from "react-icons/fa";
 import axios from 'axios';
 
@@ -99,7 +99,7 @@ export default function Footer() {
               <h6 className="font-bold uppercase pt-2 text-yellow-500">{section.title}</h6>
               <ul>
                 {section.items.map((item, i) => (
-                  <li key={i} className="py-1 text-gray-800 hover:text-white">{item}</li>
+                  <li key={i} className="py-1 text-white hover:text-themesage">{item}</li>
                 ))}
               </ul>
             </div>
@@ -107,7 +107,7 @@ export default function Footer() {
           {/* Newsletter Subscription */}
           <div className="col-span-2 pt-8 md:pt-2">
             <p className="font-bold uppercase text-yellow-500">Subscribe to our newsletter</p>
-            <p className="py-4 text-gray-800">The latest news, articles, and resources, sent to your inbox weekly.</p>
+            <p className="py-4 text-white">The latest news, articles, and resources, sent to your inbox weekly.</p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row">
               <input
                 className="w-full p-2 mr-4 text-black  rounded-md mb-4"

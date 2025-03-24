@@ -2,6 +2,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { HOME_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from "../router";
 import { useUserContext } from "../context/ClientContext";
 import ClientApi from "../services/api/Client/ClientApi";
+import logo from '../images/logoversion4.png';
 import ClientDropDownMenu from "./ClientDropDownMenu";
 import { useState, useRef, useEffect } from "react";
 import Footer from "../pages/Sections/Footer";
@@ -18,7 +19,6 @@ export default function Layout({ showNavbar = true }) {
     const [showSearchResults, setShowSearchResults] = useState(false);
     const menuRef = useRef(null);
     const searchResultsRef = useRef(null);
-    const [navHeight, setNavHeight] = useState(0);
     const navRef = useRef(null);
     const categories = ["All", "Veg", "Fruits", "Bio"];
     const [cartItemsCount, setCartItemsCount] = useState(0);
@@ -26,6 +26,7 @@ export default function Layout({ showNavbar = true }) {
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isSearching, setIsSearching] = useState(false);
     const location = useLocation();
+    const [navHeight, setNavHeight] = useState(0);
 
     // Fetch products from the backend
     useEffect(() => {
@@ -83,17 +84,28 @@ export default function Layout({ showNavbar = true }) {
         };
     }, []);
 
+    // Calculate and set navbar height
     useEffect(() => {
-        if (navRef.current) {
-            const height = navRef.current.offsetHeight;
-            setNavHeight(height);
-        }
-    }, [navRef]);
+        const updateNavHeight = () => {
+            if (navRef.current) {
+                const height = navRef.current.offsetHeight;
+                setNavHeight(height);
+                document.documentElement.style.setProperty('--nav-height', `${height}px`);
+            }
+        };
 
+        updateNavHeight();
+        window.addEventListener('resize', updateNavHeight);
+
+        return () => {
+            window.removeEventListener('resize', updateNavHeight);
+        };
+    }, [navRef, location.pathname]);
+
+    // Handle clicks outside of menus
     // useEffect(() => {
     //     function handleClickOutside(event) {
     //         if (menuRef.current && !menuRef.current.contains(event.target)) {
-    //             console.log("Closing mobile menu");
     //             setMobileMenuOpen(false);
     //         }
     //         if (
@@ -101,7 +113,6 @@ export default function Layout({ showNavbar = true }) {
     //             !searchResultsRef.current.contains(event.target) &&
     //             !event.target.closest("form")
     //         ) {
-    //             console.log("Closing search results dropdown");
     //             setShowSearchResults(false);
     //         }
     //     }
@@ -109,7 +120,7 @@ export default function Layout({ showNavbar = true }) {
     //     return () => {
     //         document.removeEventListener("mousedown", handleClickOutside);
     //     };
-    // }, [menuRef, searchResultsRef]);
+    // }, []);
 
     const logout = async () => {
         try {
@@ -124,7 +135,8 @@ export default function Layout({ showNavbar = true }) {
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchQuery.trim()) {
-            setShowSearchResults(true);
+            navigate(`/products?search=${searchQuery}&category=${searchCategory}`);
+            setShowSearchResults(false);
         }
     };
 
@@ -132,45 +144,52 @@ export default function Layout({ showNavbar = true }) {
         navigate("/cart");
     };
 
+    const navigateToProduct = (productId) => {
+        setShowSearchResults(false);
+        setSearchQuery("");
+        navigate(`/products/${productId}`);
+    };
+
     return (
         <div className="flex flex-col min-h-screen bg-gray-50">
             {showNavbar && (
-                <header ref={navRef} className="fixed top-0 left-0 right-0 z-50">
-                    {/*  Announcement Bar */}
+                <header ref={navRef} className="fixed top-0 left-0 right-0 z-50 w-full">
+                    {/* Announcement Bar - Only shown on homepage */}
                     {location.pathname === "/" && (
-                   <div className="bg-gradient-to-r from-[#f8ffa8] to-[#e6e68f] text-[#2c5530] py-2.5 px-4 shadow-sm">
-                   <div className="max-w-7xl mx-auto flex justify-center items-center text-xs sm:text-sm md:text-base">
-                       <div className="flex items-center justify-center space-x-2">
-                           <span className="font-medium">Free Delivery for Orders Over</span>
-                           <span className="font-bold">100 DH</span>
-                           <span className="hidden sm:inline">|</span>
-                           <span className="hidden sm:inline">We Deliver to All of Morocco</span>
-                           <span className="hidden sm:inline">|</span>
-                           <span className="hidden sm:inline">Minimum Order</span>
-                           <span className="font-bold">50 DH</span>
-                           <span className="hidden sm:inline">Required!</span>
-                       </div>
-                   </div>
-               </div>
-               
-
+                        <div className="bg-gradient-to-r from-[#f8ffa8] to-[#e6e68f] text-[#2c5530] py-2 px-4 shadow-sm">
+                            <div className="max-w-7xl mx-auto flex justify-center items-center text-xs sm:text-sm md:text-base">
+                                <div className="flex items-center justify-center space-x-2">
+                                    <span className="font-medium">Free Delivery for Orders Over</span>
+                                    <span className="font-bold">100 DH</span>
+                                    <span className="hidden sm:inline">|</span>
+                                    <span className="hidden sm:inline">We Deliver to All of Morocco</span>
+                                    <span className="hidden sm:inline">|</span>
+                                    <span className="hidden sm:inline">Minimum Order</span>
+                                    <span className="font-bold hidden sm:inline">50 DH</span>
+                                    <span className="hidden sm:inline">Required!</span>
+                                </div>
+                            </div>
+                        </div>
                     )}
 
                     {/* Main Navigation */}
-                    <nav className="bg-themegreen shadow-lg">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <nav className="bg-themegreen shadow-md">
+                        <div className="max-w-7xl mx-auto px-4">
                             <div className="flex items-center justify-between h-16">
                                 {/* Logo */}
                                 <div className="flex-shrink-0">
                                     <Link to="/" className="flex items-center">
-                                        <h1 className="text-[#f8ffa8] text-2xl font-bold tracking-wider uppercase hover:scale-105 transition-transform">
-                                            Swiqa
-                                        </h1>
+                                        <img
+                                            src={logo}
+                                            alt="Footer Logo"
+                                            className="w-[80px] sm:w-[100px] md:w-[120px] lg:w-[140px] h-auto opacity-100 cursor-pointer hover:opacity-90 transition-all"
+                                        />
+
                                     </Link>
                                 </div>
 
                                 {/* Search Bar - Desktop */}
-                                <div className="hidden md:block flex-grow max-w-3xl mx-4 relative">
+                                <div className="hidden md:block flex-grow max-w-2xl mx-4 relative">
                                     <form onSubmit={handleSearch} className="flex items-center">
                                         <div className="relative">
                                             <select
@@ -211,7 +230,7 @@ export default function Layout({ showNavbar = true }) {
                                     {showSearchResults && searchQuery && (
                                         <div
                                             ref={searchResultsRef}
-                                            className="search-results-dropdown absolute w-full mt-1 bg-white rounded-md shadow-lg max-h-96 overflow-y-auto"
+                                            className="absolute z-50 w-full mt-1 bg-white rounded-md shadow-lg max-h-96 overflow-y-auto"
                                         >
                                             <div className="p-3 border-b border-gray-100">
                                                 <h3 className="text-sm font-semibold text-gray-700">
@@ -222,20 +241,12 @@ export default function Layout({ showNavbar = true }) {
                                                             : `No results found for "${searchQuery}"`}
                                                 </h3>
                                             </div>
-                                            <div className="grid grid-cols-2 gap-3 p-3">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-2">
                                                 {filteredProducts.slice(0, 6).map((product) => (
-                                                    <Link
-                                                        to={`/products/${product.id}`}
+                                                    <div
                                                         key={product.id}
                                                         className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
-                                                        onClick={(e) => {
-                                                            e.preventDefault(); // Prevent default link behavior
-                                                            setShowSearchResults(false);
-
-                                                            setTimeout(() => {
-                                                                navigate(`/products/${product.id}`);
-                                                            }, 100); // Delay navigation to allow dropdown to close
-                                                        }}
+                                                        onClick={() => navigateToProduct(product.id)}
                                                     >
                                                         <img
                                                             src={product.img}
@@ -247,18 +258,13 @@ export default function Layout({ showNavbar = true }) {
                                                             <p className="text-xs text-gray-500">{product.category}</p>
                                                             <p className="text-sm font-semibold text-themegreen">{product.price} DH</p>
                                                         </div>
-                                                    </Link>
+                                                    </div>
                                                 ))}
                                             </div>
                                             {filteredProducts.length > 6 && (
                                                 <div className="p-2 text-center border-t border-gray-100">
                                                     <button
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            handleSearch(e);
-                                                            setShowSearchResults(false);
-                                                            navigate(`/products?search=${searchQuery}&category=${searchCategory}`);
-                                                        }}
+                                                        onClick={handleSearch}
                                                         className="text-sm font-medium text-themegreen hover:underline"
                                                     >
                                                         View all {filteredProducts.length} results
@@ -295,7 +301,6 @@ export default function Layout({ showNavbar = true }) {
                                     {authenticated ? (
                                         <div className="flex items-center space-x-3">
                                             <div className="flex items-center text-[#f8ffa8]">
-                                                {/* <MdPerson className="mr-1 text-lg" /> */}
                                                 <span className="text-sm font-medium">{user?.name}</span>
                                             </div>
                                             <ClientDropDownMenu logout={logout} />
@@ -320,6 +325,19 @@ export default function Layout({ showNavbar = true }) {
                                 {/* Mobile menu button */}
                                 <div className="md:hidden flex items-center">
                                     <button
+                                        onClick={navigateToCart}
+                                        className="relative mr-2 p-2 text-[#f8ffa8] hover:text-white hover:bg-[rgba(248,255,168,0.1)] rounded-full transition-colors duration-200"
+                                        aria-label="Shopping Cart"
+                                    >
+                                        <MdShoppingCart className="text-xl" />
+                                        {cartItemsCount > 0 && (
+                                            <span className="absolute -top-1 -right-1 bg-[#f8ffa8] text-[#2c5530] rounded-full text-xs font-bold w-5 h-5 flex items-center justify-center">
+                                                {cartItemsCount > 99 ? "99+" : cartItemsCount}
+                                            </span>
+                                        )}
+                                    </button>
+
+                                    <button
                                         className="inline-flex items-center justify-center p-2 rounded-md text-[#f8ffa8] hover:text-white hover:bg-[rgba(248,255,168,0.1)] transition-colors duration-200"
                                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                                     >
@@ -335,7 +353,7 @@ export default function Layout({ showNavbar = true }) {
                             </div>
 
                             {/* Mobile Search Bar */}
-                            <div className="md:hidden pb-4">
+                            <div className="md:hidden pb-3">
                                 <form onSubmit={handleSearch} className="flex items-center">
                                     <div className="relative">
                                         <select
@@ -389,16 +407,10 @@ export default function Layout({ showNavbar = true }) {
                                         </div>
                                         <div className="divide-y divide-gray-100">
                                             {filteredProducts.slice(0, 4).map((product) => (
-                                                <Link
-                                                    to={`/products/${product.id}`}
+                                                <div
                                                     key={product.id}
                                                     className="flex items-center p-2 hover:bg-gray-50 cursor-pointer"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        setTimeout(() => {
-                                                            setShowSearchResults(false);
-                                                        }, 100);
-                                                    }}
+                                                    onClick={() => navigateToProduct(product.id)}
                                                 >
                                                     <img
                                                         src={product.img}
@@ -409,19 +421,13 @@ export default function Layout({ showNavbar = true }) {
                                                         <p className="text-xs font-medium text-gray-800 line-clamp-1">{product.name}</p>
                                                         <p className="text-xs text-themegreen">{product.price} DH</p>
                                                     </div>
-                                                </Link>
+                                                </div>
                                             ))}
                                         </div>
                                         {filteredProducts.length > 4 && (
                                             <div className="p-2 text-center border-t border-gray-100">
                                                 <button
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        handleSearch(e);
-                                                        setShowSearchResults(false);
-                                                        setMobileMenuOpen(false);
-                                                        navigate(`/products?search=${searchQuery}&category=${searchCategory}`);
-                                                    }}
+                                                    onClick={handleSearch}
                                                     className="text-xs font-medium text-themegreen hover:underline"
                                                 >
                                                     View all results
@@ -447,26 +453,9 @@ export default function Layout({ showNavbar = true }) {
                                     Home
                                 </Link>
 
-                                <button
-                                    onClick={() => {
-                                        navigateToCart();
-                                        setMobileMenuOpen(false);
-                                    }}
-                                    className="flex w-full items-center px-3 py-2 rounded-md text-base font-medium text-[#f8ffa8] hover:bg-[rgba(248,255,168,0.1)] transition-colors duration-200"
-                                >
-                                    <MdShoppingCart className="mr-2 text-xl" />
-                                    <span>Cart</span>
-                                    {cartItemsCount > 0 && (
-                                        <span className="ml-2 bg-[#f8ffa8] text-[#2c5530] rounded-full text-xs font-bold w-5 h-5 flex items-center justify-center">
-                                            {cartItemsCount}
-                                        </span>
-                                    )}
-                                </button>
-
                                 {authenticated ? (
                                     <>
                                         <div className="flex items-center px-3 py-2 text-[#f8ffa8]">
-                                            {/* <MdPerson className="mr-2 text-xl" /> */}
                                             <span className="text-base font-medium">{user?.name || "User"}</span>
                                         </div>
                                         <button
@@ -505,19 +494,14 @@ export default function Layout({ showNavbar = true }) {
                 </header>
             )}
 
-            {/* Spacer to account for fixed navbar */}
-            {showNavbar && <div style={{ height: `${navHeight}px` }} />}
-
             {/* Main Content */}
-            <main className="flex-grow">
-                {/* Loading state */}
+            <main className="flex-grow" style={{ paddingTop: showNavbar ? `${navHeight}px` : '0' }}>
                 {isSearching && (
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-themegreen mx-auto mb-4"></div>
-                        <p className="text-gray-500">Searching products...</p>
+                    <div className="flex justify-center items-center pt-16">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-themegreen"></div>
+                        <p className="ml-2 text-gray-500">Searching products...</p>
                     </div>
                 )}
-
                 <Outlet />
             </main>
 
