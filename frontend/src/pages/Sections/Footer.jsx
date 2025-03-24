@@ -12,20 +12,16 @@ export default function Footer() {
 
   const sections = [
     {
-      title: "Solutions",
-      items: ["Marketing", "Analytics", "Commerce", "Data", "Cloud"],
-    },
-    {
       title: "Support",
-      items: ["Pricing", "Documentation", "Guides", "API Status"],
+      items: ["Pricing", "Documentation", "Guides", ],
     },
     {
       title: "Company",
-      items: ["About", "Blog", "Jobs", "Press", "Partners"],
+      items: ["About", "Blog", "Jobs",],
     },
     {
       title: "Legal",
-      items: ["Claims", "Privacy", "Terms", "Policies", "Conditions"],
+      items: ["Privacy", "Terms", "Policies",],
     },
   ];
 
@@ -90,12 +86,12 @@ export default function Footer() {
       )}
 
       {/* Footer Section (No Extra Space Now) */}
-      <div className="w-full bg-green-700 text-[#F8ED8C] py-10 px-2">
+      <div className="w-full bg-[#5D8736] text-yellow-500 py-10 px-2">
         <div className="max-w-[1240px] mx-auto grid grid-cols-2 md:grid-cols-6 border-b-2 border-white py-8">
           {/* Left Side Logo in Footer */}
-          <div className="flex justify-start md:col-span-1 mb-6 md:mb-0">
+          <div className="flex justify-start md:col-span-1 mb-5 md:mb-0">
             <a href="/">
-              <img src={logo} alt="Footer Logo" className="w-[150px] opacity-90 cursor-pointer hover:opacity-100" />
+              <img src={logo} alt="Footer Logo" className="w-[160px] opacity-100 cursor-pointer hover:opacity-90" />
             </a>
           </div>
           {sections.map((section, index) => (
@@ -103,7 +99,7 @@ export default function Footer() {
               <h6 className="font-bold uppercase pt-2 text-yellow-500">{section.title}</h6>
               <ul>
                 {section.items.map((item, i) => (
-                  <li key={i} className="py-1 text-white hover:text-white">{item}</li>
+                  <li key={i} className="py-1 text-gray-800 hover:text-white">{item}</li>
                 ))}
               </ul>
             </div>
@@ -111,17 +107,17 @@ export default function Footer() {
           {/* Newsletter Subscription */}
           <div className="col-span-2 pt-8 md:pt-2">
             <p className="font-bold uppercase text-yellow-500">Subscribe to our newsletter</p>
-            <p className="py-4 text-yellow-500">The latest news, articles, and resources, sent to your inbox weekly.</p>
+            <p className="py-4 text-gray-800">The latest news, articles, and resources, sent to your inbox weekly.</p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row">
               <input
-                className="w-full p-2 mr-4 rounded-md mb-4"
+                className="w-full p-2 mr-4 text-black  rounded-md mb-4"
                 type="email"
                 placeholder="Enter email.."
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <button type="submit" className="p-2 mb-4 bg-yellow-500 rounded-sm text-green-700">Subscribe</button>
+              <button type="submit" className="p-2 mb-4 bg-yellow-500 rounded-sm text-gray-800">Subscribe</button>
             </form>
             {message && <p className="text-white">{message}</p>}
           </div>

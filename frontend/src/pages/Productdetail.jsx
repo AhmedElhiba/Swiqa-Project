@@ -220,7 +220,7 @@ export default function ProductDetail() {
               {/* Information Tabs */}
               <div className="mb-6">
                 <div className="flex border-b border-gray-200">
-                  {['description', 'details', 'shipping'].map((tab) => (
+                  {['description', 'shipping'].map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveTab(tab)}
@@ -241,55 +241,13 @@ export default function ProductDetail() {
                       className="text-gray-700 leading-relaxed"
                     >
                       <p>
-                        {product.description || 'Experience the perfect blend of style and functionality with this premium product. Designed for everyday use, it offers exceptional quality and durability.'}
+                        {product.description}
                       </p>
-                      <ul className="mt-4 space-y-2">
-                        <li className="flex items-center">
-                          <span className="w-2 h-2 bg-themegreen rounded-full mr-2"></span>
-                          <span>Premium quality materials</span>
-                        </li>
-                        <li className="flex items-center">
-                          <span className="w-2 h-2 bg-themegreen rounded-full mr-2"></span>
-                          <span>Designed for everyday use</span>
-                        </li>
-                        <li className="flex items-center">
-                          <span className="w-2 h-2 bg-themegreen rounded-full mr-2"></span>
-                          <span>Durable construction</span>
-                        </li>
-                      </ul>
+                
                     </div>
                   )}
                   
-                  {activeTab === 'details' && (
-                    <div
-                      className="text-gray-700"
-                    >
-                      <table className="w-full text-sm">
-                        <tbody>
-                          <tr className="border-b border-gray-100">
-                            <td className="py-2 font-medium text-gray-500">Brand</td>
-                            <td className="py-2">Premium Brand</td>
-                          </tr>
-                          <tr className="border-b border-gray-100">
-                            <td className="py-2 font-medium text-gray-500">Materials</td>
-                            <td className="py-2">High-quality materials</td>
-                          </tr>
-                          <tr className="border-b border-gray-100">
-                            <td className="py-2 font-medium text-gray-500">Dimensions</td>
-                            <td className="py-2">12 × 8 × 2 in</td>
-                          </tr>
-                          <tr className="border-b border-gray-100">
-                            <td className="py-2 font-medium text-gray-500">Weight</td>
-                            <td className="py-2">0.8 kg</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-medium text-gray-500">SKU</td>
-                            <td className="py-2">PRD-{product.id}-XYZ</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+                  
                   
                   {activeTab === 'shipping' && (
                     <div
@@ -299,7 +257,7 @@ export default function ProductDetail() {
                         <FaShippingFast className="text-themegreen text-lg mt-1 mr-3" />
                         <div>
                           <p className="font-medium">Fast Shipping</p>
-                          <p className="text-sm text-gray-500">Free shipping on orders over 500 DH</p>
+                          <p className="text-sm text-gray-500">Free shipping on orders over 100 DH</p>
                         </div>
                       </div>
                       <div className="flex items-start">
@@ -336,7 +294,7 @@ export default function ProductDetail() {
               </div>
 
               {/* Quantity Selector */}
-              <div className="flex items-center mb-6">
+              {/* <div className="flex items-center mb-6">
                 <span className="text-gray-700 mr-3 font-medium">Quantity:</span>
                 <div className="flex items-center">
                   <button 
@@ -358,7 +316,7 @@ export default function ProductDetail() {
                 <span className="ml-4 text-sm text-gray-500">
                   {product.stock > 10 ? 'In Stock' : `Only ${product.stock || 'few'} left`}
                 </span>
-              </div>
+              </div> */}
 
               {/* Add to Cart Button - Maintaining original logic */}
               <div>
