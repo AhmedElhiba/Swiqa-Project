@@ -245,7 +245,7 @@ export default function Layout({ showNavbar = true }) {
                                                 {filteredProducts.slice(0, 6).map((product) => (
                                                     <div
                                                         key={product.id}
-                                                        className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors duration-150"
+                                                        className="flex items-center p-2 hover:bg-gray-100 rounded-md cursor-pointer transition-colors duration-150"
                                                         onClick={() => navigateToProduct(product.id)}
                                                     >
                                                         <img
